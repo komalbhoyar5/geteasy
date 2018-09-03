@@ -1,0 +1,27 @@
+.grid li .left-block {
+    position: relative;
+    overflow: hidden;
+    padding: 10px 10px 0;
+    height: 280px;
+}
+.category-slider{
+	height: 25em;
+    overflow: hidden;
+}
+.list .left-block{
+	position: inherit;
+    height: 280px;
+}
+.list .left-block .quick-view{
+	right: 28px !important;
+}
+.not_found{
+	margin-top: 4em;
+	text-align: center;
+}
+.not_found h1{
+	margin-bottom: 15px;
+}
+.not_found h4{
+	font-size: 22px;
+}

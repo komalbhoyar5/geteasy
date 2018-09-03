@@ -1,0 +1,23 @@
+.vertical-menu-content {
+    display: none;
+}
+.price i {
+    padding-top: 1px;
+}
+.star-rating-tool{
+    float: left;
+    margin-left: 10px;
+}
+.rating{
+    justify-content:left !important;
+}
+.star-container{
+	margin-left: 0px;
+	margin-top: 1em;
+}
+.out-stock{
+	color: #e81515;
+}
+.product-full img{
+	width: 100%;
+}

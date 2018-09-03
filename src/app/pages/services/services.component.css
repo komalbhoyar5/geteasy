@@ -1,0 +1,14 @@
+.option2 .product-list li .quick-view{
+	top: 10% !important;	
+	right: 25px !important;
+}
+.product-list.list .quick-view{
+	top: 10%;
+}
+.product-list.list li:first-child .product-container {
+    margin-top: 0px;
+}
+.product-list.list .info-orther {
+    display: block;
+    clear: both;
+}

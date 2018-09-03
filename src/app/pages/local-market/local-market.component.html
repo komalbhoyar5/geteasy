@@ -1,0 +1,146 @@
+<div class="columns-container">
+    <div class="container" id="columns">
+        <!-- breadcrumb -->
+        <div class="breadcrumb clearfix">
+            <a class="home" href="#" title="Return to Home">Home</a>
+            <a >
+                <span class="navigation-pipe">&nbsp;</span>
+                <span class="navigation_page">Shop by local market</span>
+            </a>
+            <a  [routerLink]="['/category',bcrumb.id]" *ngFor="let bcrumb of breadcrumb?.response">
+                <span class="navigation-pipe">&nbsp;</span>
+                <span class="navigation_page">{{bcrumb.name}}</span>
+            </a>
+        </div>
+        
+		<div class="row">
+            <div class="column col-xs-12 col-sm-3" id="left_column">
+                <!-- block category -->
+                <div class="block left-module">
+                    <p class="title_block">Product types</p>
+                    <div class="block_content">
+                        <!-- layered -->
+                        <!-- {{subcategories?.response | json}} -->
+                        <div class="layered layered-category">
+                            <div class="layered-content">
+                                <ul *ngFor="let subcat of subcategories?.response">    
+                                    <li>{{ subcat.Category.name }}</li>
+                                    <ul class="tree-menu">
+                                        <li  *ngFor="let child of subcat?.childs"  class="active">
+                                            <span></span><a routerLink="/category/{{child.Category.id}}">{{ child.Category.name }}</a>
+                                            <ul *ngIf="child.childs?.length >0;">
+                                                <li *ngFor="let subchild of child?.childs">
+                                                    <span></span><a routerLink="/category/{{subchild.Category.id}}">{{ subchild.Category.name }}</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- ./layered -->
+                    </div>
+                </div>
+            </div>
+            <div class="center_column col-xs-12 col-sm-9" id="center_column">
+            	<div id="view-product-list" class="view-product-list">
+                    <h2 class="page-heading">
+                        <span class="page-heading-title">{{category?.Category?.name}}</span>
+                    </h2>
+                    <ul class="display-product-option">
+                        <li class="view-as-grid">
+                            <span>grid</span>
+                        </li>
+                        <li class="view-as-list selected">
+                            <span>list</span>
+                        </li>
+                    </ul>
+                    <!-- PRODUCT LIST -->
+                    {{ catLocalMarket | json }}
+                    <ul class="row product-list list servicelist">
+                        <ng-container >
+                        <li class="col-sx-12 col-sm-4" *ngFor="let market of catLocalMarket">
+                            <div class="product-container">
+                                <div class="left-block">
+                                    <!-- <a  [routerLink]="['/service', catser.Service.id]">
+                                        <img class="img-responsive" alt="product" src="{{apiLink + catser.Service.imgs.split(',')[0] }}" />
+                                    </a>
+                                    <div class="quick-view">
+                                            <a title="Add to my wishlist" class="heart" href="#"></a>
+                                            <a title="View service details" class="search" [routerLink]="['/service', catser.Service.id]"></a>
+                                    </div> -->
+                                   <!--  <div class="add-to-cart">
+                                        <a title="Add to Cart" href="#add">Add to Cart</a>
+                                    </div> -->
+
+                                </div>
+                               <!--  <div class="price-percent-reduction2" *ngIf="service.Service.discount >0;">
+                                    {{service.Service.discount}}% OFF
+                                </div> -->
+                                <div class="right-block">
+                                    <h5 class="product-name"><a href="#">{{market?.VendorDetails?.business_name}}</a></h5>
+                                    <div class="product-star">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i>
+                                    </div>
+                                    <div class="contact">{{market?.VendorDetails?.contact_no}}</div>
+                                    <div class="info-orther">
+                                        <!-- <p>Item Code: #453217907</p> -->
+                                        <!-- <p class="availability">Availability: <span *ngIf="service.Service?.product_count.length >0; else out_stock">In stock</span>
+                                            <ng-template #elsenovarient>  
+                                                <span>Out of stock</span>
+                                            </ng-template>
+                                        </p> -->
+                                        <p>{{market?.VendorDetails?.address1}}, {{market?.VendorDetails?.address2}} </p>
+                                        <div class="product-desc" innerHTML="{{ catser.Service.service_desc}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        </ng-container>
+                    </ul>
+                    <!-- ./PRODUCT LIST -->
+                </div>
+                <div class="sortPagiBar">
+                    <div class="bottom-pagination">
+                        <nav>
+                          <ul class="pagination">
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                              <a href="#" aria-label="Next">
+                                <span aria-hidden="true">Next &raquo;</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>
+                    </div>
+                    <div class="show-product-item">
+                        <select name="">
+                            <option value="">Show 18</option>
+                            <option value="">Show 20</option>
+                            <option value="">Show 50</option>
+                            <option value="">Show 100</option>
+                        </select>
+                    </div>
+                    <div class="sort-product">
+                        <select>
+                            <option value="">Product Name</option>
+                            <option value="">Price</option>
+                        </select>
+                        <div class="sort-product-icon">
+                            <i class="fa fa-sort-alpha-asc"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+    </div>
+</div>
