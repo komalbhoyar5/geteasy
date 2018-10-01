@@ -3,7 +3,7 @@
         <!-- breadcrumb -->
         <div class="breadcrumb clearfix">
             <a class="home" href="#" title="Return to Home">Home</a>
-            <a  [routerLink]="['/category',bcrumb.id]" *ngFor="let bcrumb of breadcrumb?.response">
+            <a  [routerLink]="['/category',bcrumb.id, getSlug(bcrumb.name)]" *ngFor="let bcrumb of breadcrumb?.response">
                 <span class="navigation-pipe">&nbsp;</span>
                 <span class="navigation_page">{{bcrumb.name}}</span>
             </a>
@@ -18,17 +18,16 @@
                     <p class="title_block">Product types</p>
                     <div class="block_content">
                         <!-- layered -->
-                        <!-- {{subcategories?.response | json}} -->
                         <div class="layered layered-category">
                             <div class="layered-content">
-                                <ul *ngFor="let subcat of subcategories?.response">    
+                                <ul *ngFor="let subcat of subcategories">    
                                     <li>{{ subcat.Category.name }}</li>
                                     <ul class="tree-menu">
                                         <li  *ngFor="let child of subcat?.childs"  class="active">
-                                            <span></span><a routerLink="/category/{{child.Category.id}}">{{ child.Category.name }}</a>
+                                            <span></span><a [routerLink] = "['/category', child.Category.id, child.Category.name]">{{ child.Category.name }}</a>
                                             <ul *ngIf="child.childs?.length >0;">
                                                 <li *ngFor="let subchild of child?.childs">
-                                                    <span></span><a routerLink="/category/{{subchild.Category.id}}">{{ subchild.Category.name }}</a>
+                                                    <span></span><a [routerLink] = "['/category', child.Category.id, child.Category.name]">{{ subchild.Category.name }}</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -41,12 +40,10 @@
                 </div>
                 <!-- ./block category  -->
                 <!-- block filter -->
-                <div class="block left-module">
+                <!-- <div class="block left-module">
                     <p class="title_block">Filter selection</p>
                     <div class="block_content">
-                        <!-- layered -->
                         <div class="layered layered-filter-price">
-                            <!-- filter categgory -->
                             <div class="layered_subtitle">CATEGORIES</div>
                             <div class="layered-content">
                                 <ul class="check-box-list">
@@ -108,8 +105,6 @@
                                     </li>
                                 </ul>
                             </div> 
-                            <!-- ./filter categgory -->
-                            <!-- filter price -->
                             <div class="layered_subtitle">price</div>
                             <div class="layered-content slider-range">
                                 
@@ -139,8 +134,6 @@
                                     </li>
                                 </ul>
                             </div>
-                            <!-- ./filter price -->
-                            <!-- filter color -->
                             <div class="layered_subtitle">Color</div>
                             <div class="layered-content filter-color">
                                 <ul class="check-box-list">
@@ -195,8 +188,6 @@
 
                                 </ul>
                             </div>
-                            <!-- ./filter color -->
-                            <!-- ./filter brand -->
                             <div class="layered_subtitle">brand</div>
                             <div class="layered-content filter-brand">
                                 <ul class="check-box-list">
@@ -237,8 +228,6 @@
                                     </li>
                                 </ul>
                             </div>
-                            <!-- ./filter brand -->
-                            <!-- ./filter size -->
                             <div class="layered_subtitle">Size</div>
                             <div class="layered-content filter-size">
                                 <ul class="check-box-list">
@@ -316,13 +305,9 @@
                                     </li>
                                 </ul>
                             </div>
-                            <!-- ./filter size -->
                         </div>
-                        <!-- ./layered -->
-
                     </div>
-                </div>
-                <!-- ./block filter  -->
+                </div> -->
                 
             </div>
             <!-- ./left colunm -->
@@ -341,13 +326,13 @@
                 </div>
                 <!-- ./category-slider -->
                 <!-- subcategories -->
-                <div class="subcategories"  *ngIf="category.response.ChildCategory?.length >0;">
-                    <ul  *ngFor="let subcat of subcategories?.response">
+                <div class="subcategories"  *ngIf="category?.response?.ChildCategory?.length >0;">
+                    <ul  *ngFor="let subcat of subcategories">
                         <li class="current-categorie">
                             <a href="#">{{ subcat.Category.name }}</a>
                         </li>
                         <li *ngFor="let child of subcat?.childs">
-                            <a a routerLink="/category/{{child.Category.id}}">{{ child.Category.name }}</a>
+                            <a [routerLink]="['/category',child.Category.id, getSlug(child.Category.name)]">{{ child.Category.name }}</a>
                         </li>
                     </ul>
                 </div>
@@ -355,9 +340,9 @@
                 <!-- view-product-list-->
                 <div id="view-product-list" class="view-product-list">
                     <h2 class="page-heading">
-                        <span class="page-heading-title">{{category.response.Category.name}}</span>
+                        <span class="page-heading-title">{{category?.response?.Category.name}}</span>
                     </h2>
-                    <ul class="display-product-option"   *ngIf="catproduct.lenght > 0;">
+                    <ul class="display-product-option"   *ngIf="catproduct?.lenght > 0;">
                         <li class="view-as-grid selected">
                             <span>grid</span>
                         </li>
@@ -370,24 +355,23 @@
                         <li class="col-sx-12 col-sm-4" *ngFor="let product of catproduct">
                             <div class="product-container">
                                 <div class="left-block">
-                                    <a  [routerLink]="['/product', product.Product.id]">
-                                        <img class="img-responsive" alt="product" src="{{apiLink + product.Product.imgs.split(',')[0] }}" />
+                                    <a  [routerLink]="['/product', product?.Product?.id, category?.response?.Category?.id, getSlug(product?.Product?.title)]">
+                                        <img class="img-responsive" alt="product" src="{{apiLink + product?.Product?.imgs.split(',')[0] }}" />
                                     </a>
                                     <div class="quick-view">
                                             <a title="Add to my wishlist" class="heart" href="#"></a>
-                                            <a title="Add to compare" class="compare" href="#"></a>
-                                            <a title="Quick view" class="search" href="#"></a>
+                                            <a title="View details" class="search" [routerLink]="['/product', product?.Product?.id, category.response.Category.id, getSlug(product?.Product?.title)]"></a>
                                     </div>
                                     <div class="add-to-cart">
-                                        <a title="Add to Cart" href="#add">Add to Cart</a>
+                                        <a title="Add to Cart" [routerLink]="['/product', product?.Product?.id, category.response.Category.id, getSlug(product?.Product?.title)]">Quick view </a>
                                     </div>
 
                                 </div>
-                                <div class="price-percent-reduction2" *ngIf="product.Product.discount >0;">
-                                    {{product.Product.discount}}% OFF
+                                <div class="price-percent-reduction2" *ngIf="product?.Product?.discount >0;">
+                                    {{product?.Product?.discount}}% OFF
                                 </div>
                                 <div class="right-block">
-                                    <h5 class="product-name"><a href="#">{{product.Product.title}}</a></h5>
+                                    <h5 class="product-name"><a [routerLink]="['/product', product?.Product?.id, category.response.Category.id, getSlug(product?.Product?.title)]">{{product?.Product?.title}}</a></h5>
                                     <div class="product-star">
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -396,17 +380,17 @@
                                         <i class="fa fa-star-half-o"></i>
                                     </div>
                                     <div class="content_price">
-                                        <span class="price product-price"><i class="fa fa-inr"></i> {{ product.Product.price - (product.Product.price * (product.Product.discount / 100)) | number : '1.2-2' }}</span>
-                                        <span class="price old-price"><i class="fa fa-inr"></i> {{product.Product.price}}</span>
+                                        <span class="price product-price"><i class="fa fa-inr"></i> {{ product?.Product?.price - (product?.Product?.price * (product?.Product?.discount / 100)) | number : '1.2-2' }}</span>
+                                        <span class="price old-price"><i class="fa fa-inr"></i> {{product?.Product?.price}}</span>
                                     </div>
                                     <div class="info-orther">
                                         <p>Item Code: #453217907</p>
-                                        <p class="availability">Availability: <span *ngIf="product.Product?.product_count.length >0; else out_stock">In stock</span>
+                                        <p class="availability">Availability: <span *ngIf="product?.Product?.product_count.length >0; else out_stock">In stock</span>
                                             <ng-template #elsenovarient>  
                                                 <span>Out of stock</span>
                                             </ng-template>
                                         </p>
-                                        <div class="product-desc" innerHTML="{{ product.Product.description}}">
+                                        <div class="product-desc" innerHTML="{{ product?.Product?.description}}">
                                         </div>
                                     </div>
                                 </div>
@@ -417,7 +401,7 @@
                     <!-- ./PRODUCT LIST -->
                 </div>
                 <!-- ./view-product-list-->
-                <div class="sortPagiBar"  *ngIf="catproduct.lenght > 0;">
+                <div class="sortPagiBar"  *ngIf="catproduct?.lenght > 0;">
                     <div class="bottom-pagination">
                         <nav>
                           <ul class="pagination">

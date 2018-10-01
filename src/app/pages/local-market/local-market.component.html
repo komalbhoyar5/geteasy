@@ -7,7 +7,7 @@
                 <span class="navigation-pipe">&nbsp;</span>
                 <span class="navigation_page">Shop by local market</span>
             </a>
-            <a  [routerLink]="['/category',bcrumb.id]" *ngFor="let bcrumb of breadcrumb?.response">
+            <a  [routerLink]="['/local_market',bcrumb.id, getSlug(bcrumb.name)]" *ngFor="let bcrumb of breadcrumb?.response">
                 <span class="navigation-pipe">&nbsp;</span>
                 <span class="navigation_page">{{bcrumb.name}}</span>
             </a>
@@ -55,30 +55,25 @@
                             <span>list</span>
                         </li>
                     </ul>
-                    <!-- PRODUCT LIST -->
-                    {{ catLocalMarket | json }}
                     <ul class="row product-list list servicelist">
-                        <ng-container >
                         <li class="col-sx-12 col-sm-4" *ngFor="let market of catLocalMarket">
-                            <div class="product-container">
+                            <div class="product-container" *ngIf="market?.Group?.id == 4; else company_prod;">
                                 <div class="left-block">
-                                    <!-- <a  [routerLink]="['/service', catser.Service.id]">
-                                        <img class="img-responsive" alt="product" src="{{apiLink + catser.Service.imgs.split(',')[0] }}" />
+                                    <a  [routerLink]="['/vendor',getSlug(category?.Category?.name) ,category?.Category?.id , market?.User?.id,getSlug(market?.VendorDetails?.business_name)]">
+                                        <img class="img-responsive" alt="product" src="{{apiLink + market?.VendorDetails?.imgs.split(',')[0] }}" />
                                     </a>
                                     <div class="quick-view">
                                             <a title="Add to my wishlist" class="heart" href="#"></a>
-                                            <a title="View service details" class="search" [routerLink]="['/service', catser.Service.id]"></a>
-                                    </div> -->
+                                            <a title="View service details" class="search"  [routerLink]="['/vendor',getSlug(category?.Category?.name) ,category?.Category?.id , market?.User?.id,getSlug(market?.VendorDetails?.business_name)]"></a>
+                                    </div>
                                    <!--  <div class="add-to-cart">
                                         <a title="Add to Cart" href="#add">Add to Cart</a>
+                                         
                                     </div> -->
 
                                 </div>
-                               <!--  <div class="price-percent-reduction2" *ngIf="service.Service.discount >0;">
-                                    {{service.Service.discount}}% OFF
-                                </div> -->
                                 <div class="right-block">
-                                    <h5 class="product-name"><a href="#">{{market?.VendorDetails?.business_name}}</a></h5>
+                                    <h5 class="product-name"><a  [routerLink]="['/vendor',getSlug(category?.Category?.name) ,category?.Category?.id , market?.User?.id,getSlug(market?.VendorDetails?.business_name)]">{{market?.VendorDetails?.business_name}}</a></h5>
                                     <div class="product-star">
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -86,22 +81,44 @@
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star-half-o"></i>
                                     </div>
-                                    <div class="contact">{{market?.VendorDetails?.contact_no}}</div>
-                                    <div class="info-orther">
-                                        <!-- <p>Item Code: #453217907</p> -->
-                                        <!-- <p class="availability">Availability: <span *ngIf="service.Service?.product_count.length >0; else out_stock">In stock</span>
-                                            <ng-template #elsenovarient>  
-                                                <span>Out of stock</span>
-                                            </ng-template>
-                                        </p> -->
-                                        <p>{{market?.VendorDetails?.address1}}, {{market?.VendorDetails?.address2}} </p>
-                                        <div class="product-desc" innerHTML="{{ catser.Service.service_desc}}">
-                                        </div>
+                                    <div class="contact"><i class="fa fa-phone"></i>{{market?.VendorDetails?.contact_no}}</div>
+                                    <!-- <div class="contact"><i class="fa fa-envelope"></i> {{company_address?.contact_email_id}}, {{company_address?.customercare_email_id}}</div> -->
+                                    <div class="contact">
+                                        <p><i class="fa fa-home"></i> {{market?.VendorDetails?.address1}}, {{market?.VendorDetails?.address2}} {{market?.VendorDetails?.city}} - {{market?.VendorDetails?.pincode}} , {{market?.VendorDetails?.state}}  {{market?.VendorDetails?.country}}. </p>
                                     </div>
                                 </div>
                             </div>
+                            <ng-template #company_prod>
+                            <!-- {{ testResponse.other | json }} -->
+                            <!-- {{ company_address | json }} -->
+                                <div class="product-container">
+                                <div class="left-block">
+                                    <a [routerLink]="['/vendor',getSlug(category?.Category?.name) ,category?.Category?.id , market?.User?.id, getSlug(testResponse?.value)]">
+                                        <img class="img-responsive" alt="product" src="{{ apiLink + testResponse?.other }}" />
+                                    </a>
+                                    <div class="quick-view">
+                                        <a title="Add to my wishlist" class="heart" href="#"></a>
+                                        <a title="View service details" class="search" [routerLink]="['/vendor',getSlug(category?.Category?.name) ,category?.Category?.id , market?.User?.id, getSlug(testResponse?.value)]"></a>
+                                    </div>
+                                </div>
+                                <div class="right-block">
+                                    <h5 class="product-name"><a  [routerLink]="['/vendor',getSlug(category?.Category?.name) ,category?.Category?.id , market?.User?.id, getSlug(testResponse?.value)]">{{ testResponse?.value }}</a></h5>
+                                    <div class="product-star">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i>
+                                    </div>
+                                    <div class="contact"><i class="fa fa-phone"></i> {{company_address?.customer_care_no}}</div>
+                                    <div class="contact"><i class="fa fa-envelope"></i> {{company_address?.contact_email_id}}, {{company_address?.customercare_email_id}}</div>
+                                    <div class="contact">
+                                        <p><i class="fa fa-home"></i> {{company_address?.address1}}, {{company_address?.address2}}, {{company_address?.landmark}}. {{company_address?.city}}, {{company_address?.state}}, {{company_address?.country}} Pincode: {{company_address?.pincode}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            </ng-template>
                         </li>
-                        </ng-container>
                     </ul>
                     <!-- ./PRODUCT LIST -->
                 </div>

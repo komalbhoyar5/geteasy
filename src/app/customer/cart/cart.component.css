@@ -1,0 +1,291 @@
+.white-wrapper, .wrapper-content{
+    padding: 10px 0;
+    background: #f9f6f6;
+    position: relative;
+    display: block;
+}
+.ibox{
+	background-color: #fff;
+	clear: both;
+    margin-bottom: 3em;
+    margin-top: 0;
+    padding: 0;
+}
+.ibox-title {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #ffffff;
+    border-color: #fff;
+    border-image: none;
+    border: 0px !important;
+    color: inherit;
+    margin-bottom: 0;
+    padding: 15px 15px 7px;
+    min-height: 48px;
+}
+.pull-right {
+    float: right!important;
+}
+.ibox-title h5 {
+    display: inline-block;
+    font-size: 18px;
+    margin: 0 0 7px;
+    padding: 0;
+    text-overflow: ellipsis;
+    float: left;
+    border: 0px solid transparent !important;
+}
+.ibox-content {
+    clear: both;
+}
+.ibox{
+    background-color: #ffffff;
+    box-shadow: 1px 1px 2px #ddd;
+    border-color: #fff;
+}
+.ibox-content {
+    color: inherit;
+    padding: 15px 20px 20px 20px;
+    /*padding-top: 15px;*/
+    border-color: #e7eaec;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 0;
+}
+.table-responsive {
+    min-height: .01%;
+    overflow-x: auto;
+}
+table.shoping-cart-table {
+    margin-bottom: 0;
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+table {
+    background-color: transparent;
+}
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+table.shoping-cart-table tr td.desc, table.shoping-cart-table tr td:first-child {
+    text-align: left;
+}
+table.shoping-cart-table tr td {
+    border: none;
+    text-align: right;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    /*border-top: 1px solid #e7eaec;*/
+    line-height: 1.42857;
+    padding: 8px;
+    vertical-align: top;
+}
+.cart-product-imitation {
+    text-align: center;
+    height: 100%;
+    width: 120px;
+    background-color: transparent;
+}
+table.shoping-cart-table tr td.desc, table.shoping-cart-table tr td:first-child {
+    text-align: left;
+}
+.ibox-content h1, .ibox-content h2, .ibox-content h3, .ibox-content h4, .ibox-content h5, .ibox-title h1, .ibox-title h2, .ibox-title h3, .ibox-title h4, .ibox-title h5 {
+    margin-top: 5px;
+}
+.text-navy {
+    color: #1ab394;
+}
+
+a {
+    cursor: pointer;
+}
+.small, small {
+    font-size: 85%;
+}
+
+p {
+    margin: 0 0 10px;
+}
+.m-b-none {
+    margin-bottom: 0;
+}
+.small, small {
+    font-size: 85%;
+}
+dl {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+.m-t-sm {
+    margin-top: 10px;
+}
+.text-navy:hover{
+    background-color: transparent !important;
+}
+.new_price{
+    font-size: 18px !important;
+    text-align: left !important;
+    color: #5f5d5d !important;
+    padding: 0px !important;
+    font-weight: 600;
+}
+.final_price{
+    position: absolute;
+    bottom: 35px;
+}
+.old-price {
+    padding-right: 2px;
+    color: #777;
+    text-decoration: line-through !important;
+    padding-left: 10px;
+}
+.discount {
+    color: #11a955 !important;
+}
+table h3{
+    padding-bottom: 0px !important;
+    margin-top: 0px !important;
+    font-size: 16px !important;
+}
+.desc h4{
+    margin-top: 0px;
+    font-size: 18px;
+}
+
+.sk-loading {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 9999;
+}
+.sk-loading > .sk-spinner {
+    display: block;
+    position: absolute;
+    top: 45%;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+}
+.sk-spinner {
+    display: none;
+}
+.sk-spinner-double-bounce.sk-spinner {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    margin: 0 auto;
+}
+.sk-spinner-double-bounce .sk-double-bounce2 {
+    -webkit-animation-delay: -1s;
+    animation-delay: -1s;
+}
+.sk-spinner-double-bounce .sk-double-bounce1, .sk-spinner-double-bounce .sk-double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #1ab394;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-animation: sk-doubleBounce 2s infinite ease-in-out;
+    animation: sk-doubleBounce 2s infinite ease-in-out;
+}
+/*
+ *  Usage:
+ *
+ *    <div class="sk-spinner sk-spinner-double-bounce">
+ *      <div class="sk-double-bounce1"></div>
+ *      <div class="sk-double-bounce2"></div>
+ *    </div>
+ *
+ */
+.sk-spinner-double-bounce.sk-spinner {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  margin: 0 auto;
+}
+.sk-spinner-double-bounce .sk-double-bounce1,
+.sk-spinner-double-bounce .sk-double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #1ab394;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-animation: sk-doubleBounce 2s infinite ease-in-out;
+  animation: sk-doubleBounce 2s infinite ease-in-out;
+}
+.sk-spinner-double-bounce .sk-double-bounce2 {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+@-webkit-keyframes sk-doubleBounce {
+  0%,
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  50% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+@keyframes sk-doubleBounce {
+  0%,
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  50% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+.varient{
+    text-transform: capitalize;
+}
+.emptybox img{
+    width: 35%;
+    margin: 0 auto;
+    display: block;
+}
+.emptybox{
+    margin-top: 4em;
+    margin-bottom: 4em;
+    text-align: center;
+}
+.emptybox h3 {
+    font-size: 22px;
+    color: #bdb9b9;
+}
+.emptybox h1 {
+    font-weight: 600;
+    font-size: 28px;
+    color: #5f5f5f;
+}
+.btn-default, .btn-default:hover, .btn-default:active{
+    background-color: #fff;
+}
+.pad{
+    padding: 15px 20px 20px 20px !important;
+}
+.new_price .fa-inr{
+    margin-top: 4px;
+}
+.desc h3{
+    padding-bottom: 10px !important;
+}

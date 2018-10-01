@@ -1,0 +1,18 @@
+.contact .fa{
+	padding-top: 5px;
+    margin-right: 5px;
+    color: #797676;
+}
+.product-list li .left-block {
+    position: inherit;
+    overflow: hidden;
+    padding: 10px 10px 0;
+    height: 200px;
+}
+.product-list.list .quick-view {
+    width: 129px;
+    right: 36px;
+    top: 50px;
+    text-align: center;
+    padding-left: 5px;
+}

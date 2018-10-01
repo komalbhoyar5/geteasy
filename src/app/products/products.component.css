@@ -21,3 +21,44 @@
 .product-full img{
 	width: 100%;
 }
+.addedwishlist .fa{
+	background-color: #d22d1c !important;
+}
+.btn-shop span {
+    background: #181818;
+    -moz-user-select: none;
+    background-image: none;
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.42857;
+    margin: 0 -3px;
+    color: #fff;
+    padding: 9px 12px 10px 12px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.btn-shop .form-control {
+    background: none repeat scroll 0 0 #fff!important;
+    border-color: #ededed!important;
+    border-radius: 0;
+    height: 38px!important;
+    margin: 0!important;
+    padding-right: 0;
+    width: 45px;
+}
+.btn-shop{
+	float: left;
+    margin-right: 2em;
+    margin-top: 13px;
+}
+.btn-add-cart{
+	cursor: pointer;
+}
+.wishlist{
+    cursor: pointer;
+}

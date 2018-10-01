@@ -1,0 +1,89 @@
+<div class="wrapper wrapper-content">
+    <div class="container-fluid" >
+        <div class="general_row">
+            <div class="custom_tab_2 row">
+                <div class="col-md-3">
+                    <app-usersidebar></app-usersidebar>
+                </div>                    
+                <div class="col-md-9  animated fadeInRight">                       
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                            <div class="ibox">
+                                <div class="ibox-title">
+                                    <h5>Personal Information</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="info-box" *ngIf="hide">
+                                        <a class="btn btn-outline btn-info" (click)="toggle();">Edit</a>
+                                        <div class="row">
+                                            <div class="col-md-2"><span class="labelheading">Name:</span></div>
+                                            <div class="col-md-10">{{ user?.User?.f_name }} {{ user?.User?.l_name }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2"><span class="labelheading">Email id:</span></div>
+                                            <div class="col-md-10">{{ user?.User?.email }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2"><span class="labelheading">Mobile no:</span></div>
+                                            <div class="col-md-10">{{ user?.User?.mobile }}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2"><span class="labelheading">Gender:</span></div>
+                                            <div class="col-md-10">{{ user?.User?.gender }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="info-box" *ngIf="show">
+                                        <div class="row">
+                                            <form name="form" (ngSubmit)="f.form.valid && editUserProfile()" #f="ngForm" novalidate class="online_form_builder_big">
+                                                <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !f_name.valid }">
+                                                    <label for="f_name">First name</label>
+                                                    <input type="text" place class="form-control" name="f_name" [(ngModel)]="model.f_name" #f_name="ngModel" required >
+                                                    <div *ngIf="f.submitted && !f_name.valid && showerror" class="help-block">First Name is required</div>
+                                                </div>
+                                                <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !l_name.valid }">
+                                                    <label for="l_name">Last name</label>
+                                                    <input type="text" class="form-control" name="l_name" [(ngModel)]="model.l_name" #l_name="ngModel" required />
+                                                    <div *ngIf="f.submitted && !l_name.valid && showerror" class="help-block">Last name is required</div>
+                                                </div>
+                                                <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+                                                    <label for="email">Email</label>
+                                                    <input type="text" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" required/>
+                                                    <div *ngIf="f.submitted && !email.valid && showerror" class="help-block">Email id is required</div>
+                                                </div>
+                                                <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !mobile.valid }">
+                                                    <label for="mobile">Mobile no</label>
+                                                    <input type="mobile" class="form-control" name="mobile" [(ngModel)]="model.mobile" #mobile="ngModel" required/>
+                                                    <div *ngIf="f.submitted && !mobile.valid && showerror" class="help-block">Mobile details is required</div>
+                                                    
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <label for="mobile" style="margin-right:15px;">Gender</label>
+                                                        <label  style="margin-right:10px;"> 
+                                                            <input type="radio" class="i-checks" name="gender" value="Male" 
+                                                            [(ngModel)] = "model.gender"  #gender="ngModel"> Male
+                                                        </label>
+
+                                                        <label> 
+                                                            <input type="radio" class="i-checks" name="gender" value="Female" 
+                                                            [(ngModel)] = "model.gender"  #gender="ngModel"> Female
+                                                        </label>
+                                                    </div>
+                                                   <!--  <div *ngIf="f.submitted && !mobile.valid && showerror" class="help-block">Mobile details is required</div> -->
+                                                </div>
+                                                
+                                                <div class="col-md-12">
+                                                    <button class="btn btn-primary btn-lg pull-right profile_btn">Save</button>
+                                                    <button class="btn btn-primary btn-lg pull-right profile_btn"  (click)="toggle();">Cancel</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end white-wrapper -->

@@ -6,24 +6,28 @@
 	                <a class="first-item" href="#"><img alt="phone" src="assets/images/phone.png" />00-62-658-658</a>
 	                <a href="#"><img alt="email" src="assets/images/email.png" />Contact us today!</a>
 	            </div>
-	            
 	            <div class="support-link">
+	                <a data-toggle="modal" data-target="#myModal1"  *ngIf="!currentUser">Login</a>
+	                <a data-toggle="modal" data-target="#myModal2"  *ngIf="!currentUser">Signup</a>
 	                <a href="#">Services</a>
 	                <a href="#">Support</a>
 	            </div>
-
-	            <div id="user-info-top" class="user-info pull-right">
-	                <div class="dropdown">
-	                    <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><span>My Account</span></a>
+	            <div id="user-info-top" class="user-info pull-right" *ngIf="currentUser">
+                	<div class="dropdown">
+	                    <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><span>{{currentUser?.f_name}} {{currentUser?.l_name}} </span></a>
 	                    <ul class="dropdown-menu mega_dropdown" role="menu">
-	                        <li><a href="login.html">Login</a></li>
-	                       <!--  <li><a href="#">Compare</a></li>
-	                        <li><a href="#">Wishlists</a></li> -->
+	                        <li><a [routerLink]="['/profile']">My profile</a></li>
+	                        <li><a [routerLink]="['/wishlist']">Wishlists</a></li>
+	                        <li><a href="#">My orders</a></li>
+	                        <li><a (click)='logout()'>Logout</a></li>
 	                    </ul>
 	                </div>
 	            </div>
 	        </div>
 	    </div>
+
+<!-- Modal -->
+
 	    <!--/.top-header -->
 	    <!-- MAIN HEADER -->
 	    <div class="container main-header">
@@ -48,46 +52,41 @@
 	            </div>
 	            <div class="col-xs-5 col-sm-2 group-button-header">
 	                <!-- <a title="Compare" href="#" class="btn-compare">compare</a> -->
-	                <a title="My wishlist" href="#" class="btn-heart">wishlist</a>
+	                <a title="My wishlist"  [routerLink]="['/wishlist']" class="btn-heart">wishlist</a><span class="notify notify-right heart-count" [innerHTML]="wishlistcount"></span>
 	                <div class="btn-cart" id="cart-block">
-	                    <a title="My cart" href="cart.html">Cart</a>
-	                    <span class="notify notify-right">2</span>
+	                    <a title="My cart" [routerLink]="['/cart']">Cart</a>
+	                    <span class="notify notify-right" [innerHTML]="cartCount"></span>
 	                    <div class="cart-block">
 	                        <div class="cart-block-content">
-	                            <h5 class="cart-title">2 Items in my cart</h5>
-	                            <div class="cart-block-list">
+	                            <h5 class="cart-title">{{cartCount}} Items in my cart</h5>
+	                            <div class="cart-block-list" *ngFor="let cartdata of cart let i = index">
 	                                <ul>
-	                                <li class="product-info">
-	                                    <div class="p-left">
-	                                        <a href="#" class="remove_link"></a>
-	                                        <a href="#">
-	                                        <img class="img-responsive" src="assets/images/images_4.jpg" alt="p10">
-	                                        </a>
-	                                    </div>
-	                                    <div class="p-right">
-	                                        <p class="p-name">Donec Ac Tempus</p>
-	                                        <p class="p-rice">61,19 €</p>
-	                                        <p>Qty: 1</p>
-	                                    </div>
-	                                </li>
-	                                <li class="product-info">
-	                                    <div class="p-left">
-	                                        <a href="#" class="remove_link"></a>
-	                                        <a href="#">
-	                                        <img class="img-responsive" src="assets/images/images_10.jpg" alt="p10">
-	                                        </a>
-	                                    </div>
-	                                    <div class="p-right">
-	                                        <p class="p-name">Donec Ac Tempus</p>
-	                                        <p class="p-rice">61,19 €</p>
-	                                        <p>Qty: 1</p>
-	                                    </div>
-	                                </li>
-	                            </ul>
+		                                <li class="product-info">
+		                                    <div class="p-left">
+		                                        <a  (click)="removeItem(cartdata)" class="remove_link"></a>
+		                                        <a href="#">
+		                                        <img src="{{apiLink + cartdata?.Product.imgs.split(',')[0] }}" alt="p10">
+		                                        </a>
+		                                    </div>
+		                                    <div class="p-right">
+		                                        <p class="p-name">{{cartdata?.Product?.title}}</p>
+		                                        <div class="m-t-sm" *ngIf="cartdata.Product.discount > 0 else mrpprice">
+		                                            <span class="new_price p-rice"><i class="fa fa-inr"></i> {{ cartdata.Product.price - (cartdata.Product.price * (cartdata.Product.discount / 100)) | number : '1.2-2' }}</span>
+		                                            <span class="old-price"><i class="fa fa-inr"></i> {{cartdata.Product.price}}</span>
+		                                        </div>
+		                                        <ng-template #mrpprice>
+			                                        <div class="p-rice">
+			                                            <span class="new_price"><i class="fa fa-inr"></i> {{ cartdata.Product.price  | number : '1.2-2' }}</span>
+			                                        </div>
+		                                        </ng-template>
+		                                        <p>Qty: {{ cartdata.Cart.product_count }}</p>
+		                                    </div>
+		                                </li>
+		                            </ul>
 	                            </div>
 	                            <div class="toal-cart">
 	                                <span>Total</span>
-	                                <span class="toal-price pull-right">122.38 €</span>
+	                                <span class="toal-price pull-right"><i class="fa fa-inr"></i> {{carttotal | number : '1.2-2' }}</span>
 	                            </div>
 	                            <div class="cart-buttons">
 	                                <a href="order.html" class="btn-check-out">Checkout</a>
@@ -114,7 +113,7 @@
 	                        <ul class="vertical-menu-list">
 	                            <!-- <li><a href="#"><img class="icon-menu" alt="Funky roots" src="assets/data/12.png">Electronics</a></li> -->
 	                            <li *ngFor="let cat of categories?.response">
-	                                <a [routerLink]="['category',cat.Category.id]" [ngClass]="(cat.childs?.length >0)?'parent':''">
+	                                <a [routerLink]="['category',cat.Category.id, getSlug(cat.Category.name)]" [ngClass]="(cat.childs?.length >0)?'parent':''">
 	                            	<div class="cat_icon">
 	                                	<img class="icon-menu" alt="Funky roots" src="{{apiLink}}{{cat.Category.icon}}">
 	                            	</div>
@@ -125,10 +124,10 @@
 	                                <div class="vertical-dropdown-menu" *ngIf="cat.childs?.length >0;">
 	                                    <div class="vertical-groups col-sm-9">
 	                                        <div class="mega-group col-sm-4" *ngFor="let subcat of cat.childs">
-	                                            <a  [routerLink]="['category',subcat.Category.id]"><h4 class="mega-group-header"><span>{{subcat.Category.name}}</span></h4></a>
+	                                            <a  [routerLink]="['category',subcat.Category.id, getSlug(subcat.Category.name)]"><h4 class="mega-group-header"><span>{{subcat.Category.name}}</span></h4></a>
 	                                            <ul class="group-link-default"  *ngIf="subcat.childs?.length >0;">
 	                                                <li *ngFor="let subcattype of subcat.childs">
-	                                                	<a [routerLink]="['category',subcattype.Category.id]">{{subcattype.Category.name}}</a>
+	                                                	<a [routerLink]="['category',subcattype.Category.id,getSlug(subcattype.Category.name)]">{{subcattype.Category.name}}</a>
 	                                                </li>
 	                                            </ul>
 	                                        </div>
@@ -161,10 +160,10 @@
 	                                            <li class="block-container col-sm-3"  *ngFor="let cat of categories?.response">
 	                                                <ul class="block">
 	                                                    <li class="link_container group_header">
-	                                                        <a [routerLink]="['local_market',cat.Category.id]">{{cat.Category.name}}</a>
+	                                                        <a [routerLink]="['local_market',cat.Category.id, getSlug(cat.Category.name)]">{{cat.Category.name}}</a>
 	                                                    </li>
 	                                                    <li class="link_container" *ngFor="let subcat of cat.childs">
-	                                                        <a [routerLink]="['local_market',subcat.Category.id]">{{subcat.Category.name}}</a>
+	                                                        <a [routerLink]="['local_market',subcat.Category.id, getSlug(subcat.Category.name)]">{{subcat.Category.name}}</a>
 	                                                    </li>
 	                                                </ul>
 	                                            </li>
@@ -177,46 +176,6 @@
 	                                                <ul class="block">
 	                                                    <li class="link_container"  *ngFor="let cat of serviceCategories?.response">
 	                                                    	<a  [routerLink]="['services',cat.Category.id]">{{ cat.Category.name }}</a>
-	                                                    	<div class="vertical-dropdown-menu">
-							                                    <div class="vertical-groups col-sm-12">
-							                                        <div class="mega-group col-sm-4">
-							                                            <h4 class="mega-group-header"><span>Tennis</span></h4>
-							                                            <ul class="group-link-default">
-							                                                <li><a href="#">Tennis</a></li>
-							                                                <li><a href="#">Coats &amp; Jackets</a></li>
-							                                                <li><a href="#">Blouses &amp; Shirts</a></li>
-							                                                <li><a href="#">Tops &amp; Tees</a></li>
-							                                                <li><a href="#">Hoodies &amp; Sweatshirts</a></li>
-							                                                <li><a href="#">Intimates</a></li>
-							                                            </ul>
-							                                        </div>
-							                                        <div class="mega-group col-sm-4">
-							                                            <h4 class="mega-group-header"><span>Swimming</span></h4>
-							                                            <ul class="group-link-default">
-							                                                <li><a href="#">Dresses</a></li>
-							                                                <li><a href="#">Coats &amp; Jackets</a></li>
-							                                                <li><a href="#">Blouses &amp; Shirts</a></li>
-							                                                <li><a href="#">Tops &amp; Tees</a></li>
-							                                                <li><a href="#">Hoodies &amp; Sweatshirts</a></li>
-							                                                <li><a href="#">Intimates</a></li>
-							                                            </ul>
-							                                        </div>
-							                                        <div class="mega-group col-sm-4">
-							                                            <h4 class="mega-group-header"><span>Shoes</span></h4>
-							                                            <ul class="group-link-default">
-							                                                <li><a href="#">Dresses</a></li>
-							                                                <li><a href="#">Coats &amp; Jackets</a></li>
-							                                                <li><a href="#">Blouses &amp; Shirts</a></li>
-							                                                <li><a href="#">Tops &amp; Tees</a></li>
-							                                                <li><a href="#">Hoodies &amp; Sweatshirts</a></li>
-							                                                <li><a href="#">Intimates</a></li>
-							                                            </ul>
-							                                        </div>
-							                                        <div class="mega-custom-html col-sm-12">
-							                                            <a href="#"><img src="assets/data/banner-megamenu.jpg" alt="Banner"></a>
-							                                        </div>
-							                                    </div>
-							                                </div>
 	                                                    </li>
 	                                                </ul>
 	                                            </li>
@@ -255,6 +214,115 @@
 	            <div id="shopping-cart-box-ontop">
 	                <i class="fa fa-shopping-cart"></i>
 	                <div class="shopping-cart-box-ontop-content"></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+
+	<div class="modal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true" >
+	    <div class="modal-dialog">
+	        <div class="modal-content animated">
+	            <div [ngClass]="[loading ? 'modal-body sk-loading' : 'modal-body']">
+	                <div class="sk-spinner sk-spinner-double-bounce">
+	                    <div class="sk-double-bounce1"></div>
+	                    <div class="sk-double-bounce2"></div>
+	                </div>
+
+	                <div class="row">
+	                    <div class="col-sm-12 col-xs-12 sign-header">
+	                    	<h4>sign up</h4>
+                    		<div class="text-uppercase">Already registered? <a  data-toggle="modal" data-target="#myModal1" data-dismiss="modal">
+                    			sign in </a>
+                    		</div>
+	                        <button type="button" class="close_model" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	                    </div>
+	                    <div class="col-md-2"></div>
+	                    <div class="col-md-8">
+	                        <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate class="online_form_builder_big">
+                                <div class="row">
+                                    <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !f_name.valid }">
+                                        <label for="f_name">First Name</label>
+                                        <input type="text" place class="form-control  login-form" name="f_name" [(ngModel)]="model.f_name" #f_name="ngModel" required />
+                                        <div *ngIf="f.submitted && !f_name.valid" class="help-block">First Name is required</div>
+                                    </div>
+                                    <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !l_name.valid }">
+                                        <label for="l_name">Last Name</label>
+                                        <input type="text" class="form-control  login-form" name="l_name" [(ngModel)]="model.l_name" #l_name="ngModel" required />
+                                        <div *ngIf="f.submitted && !l_name.valid" class="help-block">Last Name is required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !mobile.valid }">
+                                    <label for="mobile">Mobile number</label>
+                                    <input type="text" class="form-control  login-form" name="mobile" [(ngModel)]="model.mobile" #mobile="ngModel" required />
+                                    <div *ngIf="f.submitted && !mobile.valid" class="help-block">Mobile number is required</div>
+                                </div>
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+                                    <label for="email">Email id</label>
+                                    <input type="text" class="form-control  login-form" name="email" [(ngModel)]="model.email" #email="ngModel" required />
+                                    <div *ngIf="f.submitted && !email.valid" class="help-block">Email id is required</div>
+                                    <div [innerHTML]="email_error" class="help-block"></div>
+                                </div>
+                                <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control  login-form" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+                                    <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+                                    <div [innerHTML]="password_error" class="help-block"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button [disabled]="loading" class="btn btn-primary btn-block sign">Register</button>
+                                    <p style="text-align: center;">By signing up, you agree to our <a>Terms and Conditions</a></p>
+                                </div>
+                            </form>
+	                    </div>
+	                    <div class="col-md-2"></div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<div class="modal" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true" >
+	    <div class="modal-dialog">
+	        <div class="modal-content animated">
+	            <div [ngClass]="[loading ? 'modal-body sk-loading' : 'modal-body']">
+	                <div class="sk-spinner sk-spinner-double-bounce">
+	                    <div class="sk-double-bounce1"></div>
+	                    <div class="sk-double-bounce2"></div>
+	                </div>
+
+	                <div class="row">
+	                    <div class="col-sm-12 col-xs-12 sign-header">
+	                    	<h4>sign in</h4>
+                    		<div class="text-uppercase">not registered? <a  data-toggle="modal" data-target="#myModal2" data-dismiss="modal">
+                    			sign up </a>
+                    		</div>
+	                        <button type="button" class="close_model" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	                    </div>
+	                    <div class="col-md-2"></div>
+	                    <div class="col-md-8">
+	                        <form action="#" class="custom-form" name="loginform" (ngSubmit)="lf.form.valid && login()" #lf="ngForm" novalidate>
+	                          <div class="form-group" [ngClass]="{ 'has-error': lf.submitted && !email.valid }">
+	                            <label for="user" class="animated-label">Email id</label>
+	                            <input type="text" class="form-control login-form" name="email" [(ngModel)]="loginData.email" #email="ngModel" required />
+	                            <div *ngIf="lf.submitted && !email.valid" class="help-block">Email id is required</div>
+	                          </div>
+	                          <div class="form-group" [ngClass]="{ 'has-error': lf.submitted && !password.valid }">
+	                            <label for="pass" class="animated-label">Password</label>
+	                            <input  type="password" class="form-control login-form" name="password" [(ngModel)]="loginData.password" #password="ngModel" required />
+	                            <div *ngIf="lf.submitted && !password.valid" class="help-block">Password is required</div>
+	                          </div>
+	                          <div class="login-links">
+	                              <a href="">Forgot password?</a>
+	                          </div>
+	                          <div class="submit">
+	                            <button class="btn btn-primary btn-block sign"  [disabled]="loading" >Login</button>
+	                          </div>
+	                        </form>
+	                    </div>
+	                    <div class="col-md-2"></div>
+	                </div>
 	            </div>
 	        </div>
 	    </div>

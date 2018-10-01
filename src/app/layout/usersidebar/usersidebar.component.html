@@ -1,0 +1,27 @@
+<!-- <div class="ibox">
+    <ul class="recent_posts_widget">
+        <li>
+            <img src="assets/images/avatar.png" alt="" />
+            <div class="welcome">
+                <span>Hi, </span>
+            <h5 class="username" href="#" title="">Komal Bhoyar</h5>
+        </div>
+        </li>
+    </ul> 
+</div> -->
+
+<div class="ibox">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+          
+          
+    </div>
+    <ul class="nav nav-pills nav-stacked" id="another_tab">
+          
+          
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a class="nav-link" [routerLink]="['/profile']">Personal information</a></li>
+        <li routerLinkActive="active" ><a class="nav-link" [routerLink]="['/change_password']">Change password</a></li>
+        <li routerLinkActive="active" ><a class="nav-link" [routerLink]="['/manage_address']">Manage addresses</a></li>
+        <!-- <li><a class="nav-link" [routerLink]="['/cart']">My orders</a></li> -->
+        <li routerLinkActive="active" ><a class="nav-link"  (click)='logout()'>Logout</a></li>
+    </ul>
+</div>

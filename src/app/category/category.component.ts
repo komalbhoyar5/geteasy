@@ -101,8 +101,8 @@ export class CategoryComponent implements OnInit {
      return this.http.get(this.apiLink+'projectapis/getsubCategoryDetails/'+id+'.json')
         .subscribe(
         data => {
-              this.subcategories = data;
-              console.log("I CANT SEE subcategory DATA HERE: ", this.subcategories);
+              this.subcategories = data['response'];
+              // console.log("I CANT SEE subcategory DATA HERE: ", this.subcategories);
               return this.subcategories;
             }
         )
@@ -116,7 +116,7 @@ export class CategoryComponent implements OnInit {
       .subscribe(
       data => {
             this.category = data;
-            console.log("I CANT SEE category details HERE: ", this.category);
+            // console.log("I CANT SEE category details HERE: ", this.category);
             return this.category;
           }
       )
@@ -127,10 +127,15 @@ export class CategoryComponent implements OnInit {
       .subscribe(
       data => {
             this.breadcrumb = data;
-            console.log("I CANT SEE breadcrumb details HERE: ", this.breadcrumb);
+            // console.log("I CANT SEE breadcrumb details HERE: ", this.breadcrumb);
             return this.breadcrumb;
           }
       )
   }
 
+  getSlug(text){
+    if (text) {
+      return text.replace(/\W+/g, '-');
+    }
+  }
 }

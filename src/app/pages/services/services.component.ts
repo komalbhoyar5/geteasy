@@ -110,5 +110,10 @@ export class ServicesComponent implements OnInit {
 	  	)
 	}
 
+  getSlug(text){
+    if (text) {
+      return text.replace(/\W+/g, '-');
+    }
+  }
 
 }

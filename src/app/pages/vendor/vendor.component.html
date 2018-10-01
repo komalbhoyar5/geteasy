@@ -1,0 +1,384 @@
+<div class="columns-container">
+    <div class="container" id="columns">
+        <!-- breadcrumb -->
+        <div class="breadcrumb clearfix">
+            <a class="home" href="#" title="Return to Home">Home</a>
+            <a >
+                <span class="navigation-pipe">&nbsp;</span>
+                <span class="navigation_page">Shop by local market</span>
+            </a>
+            <a  [routerLink]="['/local_market',bcrumb.id, getSlug(bcrumb.name)]" *ngFor="let bcrumb of breadcrumb?.response">
+                <span class="navigation-pipe">&nbsp;</span>
+                <span class="navigation_page">{{bcrumb.name}}</span>
+            </a>
+            <ng-container *ngIf="vendor?.Group?.id == 4; else company_link;">
+                <a>
+                    <span class="navigation-pipe">&nbsp;</span>
+                    <span class="navigation_page">{{ vendor?.VendorDetails?.business_name }}</span>
+                </a>
+            </ng-container>
+            <ng-template #company_link> 
+                <a>
+                    <span class="navigation-pipe">&nbsp;</span>
+                    <span class="navigation_page">{{ testResponse?.value }}</span>
+                </a>  
+            </ng-template>
+        </div>
+        <!-- ./breadcrumb -->
+        <!-- row -->
+        <div class="row">
+            <!-- Left colunm -->
+            <div class="column col-xs-12 col-sm-3" id="left_column">
+                <!-- block category -->
+                <div class="block left-module">
+                    <p class="title_block">Products by {{ vendor?.VendorDetails?.business_name }}</p>
+                    <div class="block_content">
+                        <!-- layered -->
+                        <div class="layered layered-category">
+                            <div class="layered-content">
+                                <ul class="tree-menu">
+                                    <li class="active"   *ngFor="let cat of catVend">
+                                        <span></span><a  [routerLink]="['/vendor', getSlug(cat?.Category?.name),cat?.Category?.id, vendor?.User?.id ,getSlug(vendor?.VendorDetails?.business_name)]">{{ cat?.Category?.name }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- ./layered -->
+                    </div>
+                </div>
+                <!-- ./block category  -->
+                
+                <!-- left silide -->
+                <div class="col-left-slide left-module">
+                    <ul class="owl-carousel owl-style2" data-loop="true" data-nav = "false" data-margin = "0" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-items="1" data-autoplay="true">
+                        <li><a href="#"><img src="assets/data/slide-left.jpg" alt="slide-left"></a></li>
+                        <li><a href="#"><img src="assets/data/slide-left2.jpg" alt="slide-left"></a></li>
+                        <li><a href="#"><img src="assets/data/slide-left3.png" alt="slide-left"></a></li>
+                    </ul>
+                </div>
+                <!--./left silde-->
+                <!-- left silide -->
+                <div class="col-left-slide left-module">
+                    <div class="banner-opacity">
+                        <a href="#"><img src="assets/images/baner-floor2.jpg" alt="ads-banner"></a>
+                    </div>
+                </div>
+                <div class="col-left-slide left-module">
+                    <div class="banner-opacity">
+                        <a href="#"><img src="assets/images/baner-floor1.jpg" alt="ads-banner"></a>
+                    </div>
+                </div>
+                <!--./left silde-->
+            </div>
+            <!-- ./left colunm -->
+            <!-- Center colunm-->
+            <div class="center_column col-xs-12 col-sm-9" id="center_column">
+                <div id="product">
+                    <!-- {{ vendor?.VendorDetails?.imgs.split(',').length }} -->
+                    <ng-container *ngIf="vendor?.Group?.id == 4; else company_prod;">
+                        <div class="primary-box row">
+                            <div class="pb-left-column col-xs-12 col-sm-6">
+                                <div class="col-left-slide left-module">
+                                    <!-- <owl-carousel #owlElement
+                                         [options]="{items: 1, dots: true, navigation: true}"
+                                         [items]="vendor?.VendorDetails?.imgs.split(',')"
+                                         [carouselClasses]="['owl-theme', 'row', 'sliding']">
+                                         <div class="item" *ngFor="let images of vendor?.VendorDetails?.imgs.split(',')">
+                                            <div class="thumbnail-image">
+                                                <img src="{{ apiLink }}{{ images }}" alt="slide-left">                 
+                                            </div>
+                                         </div>
+                                    </owl-carousel> -->
+                                    <img src="{{apiLink}}{{ vendor?.VendorDetails?.imgs.split(',')[0] }}">
+                                </div>
+                                <!-- product-imge-->
+                            </div>
+                            <div class="pb-right-column col-xs-12 col-sm-6">
+                                <h1 class="product-name">{{ vendor?.VendorDetails?.business_name }}</h1>
+                                <div class="product-comments">
+                                    <div class="product-star">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i>
+                                    </div>
+                                    <div class="comments-advices">
+                                        <a href="#">Based  on 3 ratings</a>
+                                        <a href="#"><i class="fa fa-pencil"></i> write a review</a>
+                                    </div>
+                                </div>
+                                <div class="contact"><i class="fa fa-phone"></i>{{vendor?.VendorDetails?.contact_no}}</div>
+                                <!-- <div class="contact"><i class="fa fa-envelope"></i> {{company_address?.contact_email_id}}, {{company_address?.customercare_email_id}}</div> -->
+                                <div class="contact">
+                                    <p><i class="fa fa-home"></i> {{vendor?.VendorDetails?.address1}}, {{vendor?.VendorDetails?.address2}} {{vendor?.VendorDetails?.city}} - {{vendor?.VendorDetails?.pincode}}, {{vendor?.VendorDetails?.state}}  {{vendor?.VendorDetails?.country}}.  <a href="">( View on map )</a></p>
+                                </div>
+                                    <div class="workingdiv" *ngFor="let days of vendor?.VendorDetails?.working_days" >
+                                        <p *ngIf="days?.working_days_from == today;">Working hours: 
+                                            <span class="in-stock">Today : </span>
+                                            <ng-container *ngIf="convert_to_min(days?.working_hr_from) < convert_to_min(current_time) && convert_to_min(days?.working_hr_to) > convert_to_min(current_time); else close">
+                                                <span class="open">Open</span>
+                                                <span class="closetime">( Closes at {{ days?.working_hr_to }} )</span>
+                                            </ng-container>
+                                            <ng-template #close>
+                                                <span class="closeshop">Closed</span>
+                                                <span class="closetime">( Open at {{ days?.working_hr_from }})</span>
+                                            </ng-template>
+                                        </p>
+                                    </div>
+                                <div class="form-action">
+                                    <div class="button-group">
+                                        <a class="wishlist" href="#"><i class="fa fa-heart-o"></i>
+                                        <br>Wishlist</a>
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-share">
+                                    <div class="sendtofriend-print">
+                                        <a href="javascript:print();"><i class="fa fa-print"></i> Print</a>
+                                        <a href="#"><i class="fa fa-envelope-o fa-fw"></i>Send to a friend</a>
+                                    </div>
+                                    <div class="network-share">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template  #company_prod>
+                        <div class="primary-box row">
+                            <div class="pb-left-column col-xs-12 col-sm-6">
+                                <img id="product-zoom" src='{{apiLink}}{{ testResponse?.other }}' data-zoom-image="assets/data/product-s3-850x1036.jpg"/>
+                                <!-- product-imge-->
+                            </div>
+                            <div class="pb-right-column col-xs-12 col-sm-6">
+                                <h1 class="product-name">{{ testResponse?.value }}</h1>
+                                <div class="contact"><i class="fa fa-phone"></i> {{company_address?.customer_care_no}}</div>
+                                <div class="contact"><i class="fa fa-envelope"></i> {{company_address?.contact_email_id}}, {{company_address?.customercare_email_id}}</div>
+                                <div class="contact">
+                                    <p><i class="fa fa-home"></i> {{company_address?.address1}}, {{company_address?.address2}}, {{company_address?.landmark}}. {{company_address?.city}}, {{company_address?.state}}, {{company_address?.country}} Pincode: {{company_address?.pincode}}</p>
+                                </div>
+                                
+                                <div class="form-action">
+                                    <div class="button-group">
+                                        <a class="wishlist" href="#"><i class="fa fa-heart-o"></i>
+                                        <br>Wishlist</a>
+                                    </div>
+                                </div>
+                                <div class="form-share">
+                                    <div class="sendtofriend-print">
+                                        <a href="javascript:print();"><i class="fa fa-print"></i> Print</a>
+                                        <a href="#"><i class="fa fa-envelope-o fa-fw"></i>Send to a friend</a>
+                                    </div>
+                                    <div class="network-share">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                	</ng-template>
+                    <div class="product-tab" *ngIf="vendor?.Group?.id == 4">
+                        <ul class="nav-tab">
+                            <li class="active">
+                                <a aria-expanded="false" data-toggle="tab" href="#product-detail">Buisiness Details</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#reviews">reviews</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#extra-tabs">Write a review</a>
+                            </li>
+                        </ul>
+                        <div class="tab-container">
+                            <div id="product-detail" class="tab-panel active" innerHTML="{{vendor?.VendorDetails?.business_info}}">
+                         
+                            </div>
+                            <div id="reviews" class="tab-panel">
+                                <div class="product-comments-block-tab">
+                                    <div class="comment row">
+                                        <div class="col-sm-3 author">
+                                            <div class="grade">
+                                                <span>Grade</span>
+                                                <span class="reviewRating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </span>
+                                            </div>
+                                            <div class="info-author">
+                                                <span><strong>Jame</strong></span>
+                                                <em>04/08/2015</em>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-9 commnet-dettail">
+                                            Phasellus accumsan cursus velit. Pellentesque egestas, neque sit amet convallis pulvinar
+                                        </div>
+                                    </div>
+                                    <div class="comment row">
+                                        <div class="col-sm-3 author">
+                                            <div class="grade">
+                                                <span>Grade</span>
+                                                <span class="reviewRating">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </span>
+                                            </div>
+                                            <div class="info-author">
+                                                <span><strong>Author</strong></span>
+                                                <em>04/08/2015</em>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-9 commnet-dettail">
+                                            Phasellus accumsan cursus velit. Pellentesque egestas, neque sit amet convallis pulvinar
+                                        </div>
+                                    </div>
+                                    <p>
+                                        <a class="btn-comment" href="#">Write your review !</a>
+                                    </p>
+                                </div>
+                                
+                            </div>
+                            <div id="extra-tabs" class="tab-panel">
+                                <div class="big-title">
+                                    <h3>Submit your review</h3>
+                                </div>
+                                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                    <div class="form-group star-rating-tool">
+                                        <star-rating-comp 
+                                                [starType]="'svg'" 
+                                                [size]="'large'"
+                                                [labelPosition]= "'left'"
+                                                [rating]="rating"
+                                                >
+                                        </star-rating-comp>
+                                                <!-- formControlName="ratingInput" -->
+                                                <!-- [rating] = "'3'" -->
+                                    </div>
+                                    <!-- <pre>{{ form.value | json }}</pre> -->
+                                    <input type="text" class="form-control" placeholder="Headline for your review">
+                                    <br>
+                                    <textarea class="form-control" placeholder="Your Comments" rows="7"></textarea>
+                                    <br>
+                                    <button class="pull-right btn btn-primary" type="submit">Send review</button>
+                                </form> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product -->
+                <!-- view-product-list-->
+                <div id="view-product-list" class="view-product-list">
+                    <h2 class="page-heading">
+                        <!-- <span class="page-heading-title">{{category.response.Category.name}}</span> -->
+                    </h2>
+                    <ul class="display-product-option"   *ngIf="localProduct.length > 0;">
+                        <li class="view-as-grid selected">
+                            <span>grid</span>
+                        </li>
+                        <li class="view-as-list">
+                            <span>list</span>
+                        </li>
+                    </ul>
+                    <!-- PRODUCT LIST -->
+                    <ul class="row product-list grid" *ngIf="localProduct?.length > 0; else productnotFound">
+                       <li class="col-sx-12 col-sm-4" *ngFor="let product of localProduct">
+                            <div class="product-container">
+                                <div class="left-block">
+                                    <a [routerLink]="['/product', product?.Product?.id, product?.Product?.category_id, getSlug(product?.Product?.title)]">
+                                        <img class="img-responsive" alt="product" src="{{apiLink + product.Product.imgs.split(',')[0] }}" />
+                                    </a>
+                                    <div class="quick-view">
+                                            <a title="Add to my wishlist" class="heart" href="#"></a>
+                                            <a title="Add to compare" class="compare" href="#"></a>
+                                            <a title="Quick view" class="search" href="#"></a>
+                                    </div>
+                                    <div class="add-to-cart">
+                                        <a title="Add to Cart" href="#add">Add to Cart</a>
+                                    </div>
+
+                                </div>
+                                <div class="price-percent-reduction2" *ngIf="product.Product.discount >0;">
+                                    {{product.Product.discount}}% OFF
+                                </div>
+                                <div class="right-block">
+                                    <h5 class="product-name"><a href="#">{{product.Product.title}}</a></h5>
+                                    <div class="product-star">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-o"></i>
+                                    </div>
+                                    <div class="content_price">
+                                        <span class="price product-price"><i class="fa fa-inr"></i> {{ product.Product.price - (product.Product.price * (product.Product.discount / 100)) | number : '1.2-2' }}</span>
+                                        <span class="price old-price"><i class="fa fa-inr"></i> {{product.Product.price}}</span>
+                                    </div>
+                                    <div class="info-orther">
+                                        <p>Item Code: #453217907</p>
+                                        <p class="availability">Availability: <span *ngIf="product.Product?.product_count.length >0; else out_stock">In stock</span>
+                                            <ng-template #elsenovarient>  
+                                                <span>Out of stock</span>
+                                            </ng-template>
+                                        </p>
+                                        <div class="product-desc" innerHTML="{{ product.Product.description}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <!-- ./PRODUCT LIST -->
+                </div>
+                <!-- ./view-product-list-->
+                <div class="sortPagiBar"  *ngIf="localProduct.length > 0;">
+                    <div class="bottom-pagination">
+                        <nav>
+                          <ul class="pagination">
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                              <a href="#" aria-label="Next">
+                                <span aria-hidden="true">Next &raquo;</span>
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>
+                    </div>
+                    <div class="show-product-item">
+                        <select name="">
+                            <option value="">Show 18</option>
+                            <option value="">Show 20</option>
+                            <option value="">Show 50</option>
+                            <option value="">Show 100</option>
+                        </select>
+                    </div>
+                    <div class="sort-product">
+                        <select>
+                            <option value="">Product Name</option>
+                            <option value="">Price</option>
+                        </select>
+                        <div class="sort-product-icon">
+                            <i class="fa fa-sort-alpha-asc"></i>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #productnotFound>
+                    <div class="row not_found">
+                        <h1>Sorry!</h1>
+                        <h4>No product found</h4>
+                        <img src="assets/images/product/no-product-found.jpg">
+                    </div>
+                </ng-template >
+            </div>
+            <!-- ./ Center colunm -->
+        </div>
+        <!-- ./row-->
+    </div>
+</div>

@@ -893,6 +893,7 @@
 	border-top: 1px solid #eaeaea;
 	border-right: 1px solid #eaeaea;
 	overflow: hidden;
+	margin-bottom: 4em;
 }
 .services2 .services2-item{
 	padding: 0;
@@ -928,7 +929,7 @@
 [9. Footer]
 */
 .option2 #footer{
-	margin-top: 60px;
+	margin-top: 0px;
 }
 .option2 #mail-box .btn{
 	background: #339967;
@@ -1608,4 +1609,9 @@
 }
 .h5, h5 {
     font-size: 13px;
+}
+.form-control{
+    height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
 }

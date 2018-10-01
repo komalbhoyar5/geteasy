@@ -4,13 +4,15 @@
         <div class="breadcrumb clearfix">
             <a class="home" href="#" title="Return to Home">Home</a>
             <span class="navigation-pipe">&nbsp;</span>
-            <a href="#" title="Return to Home">Fashion</a>
-            <span class="navigation-pipe">&nbsp;</span>
-            <a href="#" title="Return to Home">Women</a>
-            <span class="navigation-pipe">&nbsp;</span>
-            <a href="#" title="Return to Home">Dresses</a>
-            <span class="navigation-pipe">&nbsp;</span>
-            <span class="navigation_page">Maecenas consequat mauris</span>
+            <a class="home">Services</a>
+            <a  [routerLink]="['/services',bcrumb.id]" *ngFor="let bcrumb of breadcrumb?.response">
+                <span class="navigation-pipe">&nbsp;</span>
+                <span class="navigation_page">{{bcrumb.name}}</span>
+            </a>
+            <a>
+                <span class="navigation-pipe">&nbsp;</span>
+                <span class="navigation_page">{{ products?.Service?.title }}</span>
+            </a>
         </div>
         <!-- ./breadcrumb -->
         <!-- row -->
@@ -66,25 +68,32 @@
                                 
                                 <div class="form-option">
                                     <p class="form-option-title">Contact details:</p>
-                                    <div class="attributes">
+                                    <div class="attributes" *ngIf="products?.Service?.Address">
                                          <div class="attribute-label">Address:</div>
                                         <div class="attribute-list">
                                         	<p>{{products?.Service?.Address}}</p>
                                         </div>
                                     </div>
-                                    <div class="attributes">
+                                    <div class="attributes" *ngIf="products?.Service?.contact_no">
                                         <div class="attribute-label">Contact number:</div>
                                         <div class="attribute-list ">
                                             {{products?.Service?.contact_no}}
                                         </div>
                                     </div>
                                     <div class="attributes">
-                                        <div class="attribute-label">Working hours:</div>
-                                        <div class="attribute-list">
-                                            <p>{{products?.Service?.start_time}} to {{products?.Service?.end_time}} </p>
-                                            <!-- <a id="size_chart" class="fancybox" href="assets/images/size-chart.jpg">Size Chart</a> -->
+                                        <div class="workingdiv" *ngFor="let days of products?.Service?.working_days" >
+                                            <p *ngIf="days?.working_days_from == today;">Working hours: 
+                                                <span class="in-stock">Today : </span>{{days?.working_hr_to}}
+                                                <ng-container *ngIf="(convert_to_min(days?.working_hr_from) < convert_to_min(current_time)) && (convert_to_min(days?.working_hr_to) > convert_to_min(current_time)); else close">
+                                                    <span class="open">Open</span>
+                                                    <span class="closetime">( Closes at {{ days?.working_hr_to }} )</span>
+                                                </ng-container>
+                                                <ng-template #close>
+                                                    <span class="closeshop">Closed</span>
+                                                    <span class="closetime">( Open at {{ days?.working_hr_from }})</span>
+                                                </ng-template>
+                                            </p>
                                         </div>
-                                        
                                     </div>
                                 </div>
                                 <div class="form-share">
@@ -199,7 +208,7 @@
                         </div>
                         <!-- ./tab product -->
                         <!-- box product -->
-                        <div class="page-product-box">
+                        <!-- <div class="page-product-box">
                             <h3 class="heading">Related Products</h3>
                             <ul class="product-list owl-carousel" data-dots="false" data-loop="true" data-nav = "true" data-margin = "30" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":4}}'>
                                 <li>
@@ -327,10 +336,10 @@
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                         <!-- ./box product -->
                         <!-- box product -->
-                        <div class="page-product-box">
+                        <!-- <div class="page-product-box">
                             <h3 class="heading">You might also like</h3>
                             <ul class="product-list owl-carousel" data-dots="false" data-loop="true" data-nav = "true" data-margin = "30" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":4}}'>
                                 <li>
@@ -458,7 +467,7 @@
                                     </div>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                         <!-- ./box product -->
                     </div>
                 <!-- Product -->

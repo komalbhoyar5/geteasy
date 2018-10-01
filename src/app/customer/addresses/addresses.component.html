@@ -1,0 +1,175 @@
+<div [ngClass]="[loading ? ' sk-loading' : '']">
+    <div class="sk-spinner sk-spinner-double-bounce">
+        <div class="sk-double-bounce1"></div>
+        <div class="sk-double-bounce2"></div>
+    </div>
+</div>
+<div class="wrapper wrapper-content">
+    <div class="container-fluid" >
+        <div class="general_row">
+            <div class="custom_tab_2 row">
+                <div class="col-md-3">
+                    <app-usersidebar></app-usersidebar>
+                </div>                    
+                <div class="col-md-9 animated fadeInRight">                       
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Manage addresses</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row" *ngIf="hide">
+                                <div class="col-md-4" >
+                                    <div class="addnewaddrs" (click)="toggle();">
+                                        <span>+</span>
+                                        <h5>Add new address</h5>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" *ngFor="let address of userAddress">
+                                    <div class="addBox">
+                                        <h4>{{ address.Address.full_name }}</h4>
+                                        <p>{{ address.Address.mobile_no }}</p>
+                                        <p>{{ address.Address.address }} {{address.Address.street}} </p>
+                                        <p>{{address.Address.city}}, {{address.Address.state}} {{address.Address?.pincode}}</p>
+                                        <p> {{address.Address.country}}</p>
+                                        <a (click)="editmodeOn(address.Address);">Edit</a> | <a (click)="deleteAddressDetail(address.Address.id);">Delete</a> | 
+                                        <ng-container *ngIf="address.Address.is_active == 'Active'; else inacriveaddr">
+                                            <a style="color:#ffad00;">Active Address</a>
+                                        </ng-container>
+                                        <ng-template #inacriveaddr>
+                                            <a (click)="SetDefaultAddress(address.Address.id);">Set as default address</a>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row"  *ngIf="show">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8">
+                                    <h5>Add a new address</h5>
+                                    <form name="form" (ngSubmit)="f.form.valid && addshippinAddress()" #f="ngForm" novalidate class="online_form_builder_big">
+                                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !full_name.valid }">
+                                            <label for="full_name">Full name</label>
+                                            <input type="text" place class="form-control" name="full_name" [(ngModel)]="model.full_name" #full_name="ngModel" required />
+                                            <div *ngIf="f.submitted && !full_name.valid && showerror" class="help-block">First Name is required</div>
+                                        </div>
+                                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !mobile_no.valid }">
+                                            <label for="mobile_no">Mobile number</label>
+                                            <input type="text" class="form-control" name="mobile_no" [(ngModel)]="model.mobile_no" #mobile_no="ngModel" required />
+                                            <div *ngIf="f.submitted && !mobile_no.valid && showerror" class="help-block">Mobile number is required</div>
+                                            <div [innerHTML]="mobile_no_error" class="help-block"></div>
+                                        </div>
+                                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !address.valid }">
+                                            <label for="address">Address</label>
+                                            <input type="text" class="form-control" name="address" [(ngModel)]="model.address" #address="ngModel" required />
+                                            <div *ngIf="f.submitted && !address.valid && showerror" class="help-block">Email id is required</div>
+                                        </div>
+                                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !street.valid }">
+                                            <label for="street">Street</label>
+                                            <input type="street" class="form-control" name="street" [(ngModel)]="model.street" #street="ngModel" required />
+                                            <div *ngIf="f.submitted && !street.valid && showerror" class="help-block">Street details is required</div>
+                                        </div>
+                                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !landmark.valid }">
+                                            <label for="landmark">Landmark</label>
+                                            <input type="landmark" class="form-control" name="landmark" [(ngModel)]="model.landmark" #landmark="ngModel" required />
+                                            <div *ngIf="f.submitted && !landmark.valid && showerror" class="help-block">Landmark is required</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !country.valid }">
+                                                <label for="country">Country</label>
+                                                <input type="country" class="form-control" name="country" [(ngModel)]="model.country" #country="ngModel" required />
+                                                <div *ngIf="f.submitted && !country.valid && showerror" class="help-block">Country is required</div>
+                                            </div>
+                                            <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !state.valid }">
+                                                <label for="state">State</label>
+                                                <input type="state" class="form-control" name="state" [(ngModel)]="model.state" #state="ngModel" required />
+                                                <div *ngIf="f.submitted && !state.valid && showerror" class="help-block">State is required</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !city.valid }">
+                                                <label for="city">City</label>
+                                                <input type="city" class="form-control" name="city" [(ngModel)]="model.city" #city="ngModel" required />
+                                                <div *ngIf="f.submitted && !city.valid && showerror" class="help-block">City is required</div>
+                                            </div>
+                                            <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !pincode.valid }">
+                                                <label for="pincode">Pincode</label>
+                                                <input type="pincode" class="form-control" name="pincode" [(ngModel)]="model.pincode" #pincode="ngModel" required />
+                                                <div *ngIf="f.submitted && !pincode.valid && showerror" class="help-block">Pincode is required</div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                            </div>
+                                        </div>
+                                        
+                                        <button class="btn btn-primary" type="submit">Add new address</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                            <div class="row"  *ngIf="editmode">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8">
+                                    <h5>Edit address</h5>
+                                    <form name="form" (ngSubmit)="f.form.valid && EditUserAddressDetails()" #f="ngForm" novalidate class="online_form_builder_big">
+                                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !full_name.valid }">
+                                            <label for="full_name">Full name</label>
+                                            <input type="text" place class="form-control" name="full_name" [(ngModel)]="modeledit.full_name" #full_name="ngModel" required />
+                                            <div *ngIf="f.submitted && !full_name.valid && showerror" class="help-block">First Name is required</div>
+                                        </div>
+                                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !mobile_no.valid }">
+                                            <label for="mobile_no">Mobile number</label>
+                                            <input type="text" class="form-control" name="mobile_no" [(ngModel)]="modeledit.mobile_no" #mobile_no="ngModel" required />
+                                            <div *ngIf="f.submitted && !mobile_no.valid && showerror" class="help-block">Mobile number is required</div>
+                                            <div [innerHTML]="mobile_no_error" class="help-block"></div>
+                                        </div>
+                                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !address.valid }">
+                                            <label for="address">Address</label>
+                                            <input type="text" class="form-control" name="address" [(ngModel)]="modeledit.address" #address="ngModel" required />
+                                            <div *ngIf="f.submitted && !address.valid && showerror" class="help-block">Email id is required</div>
+                                        </div>
+                                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !street.valid }">
+                                            <label for="street">Street</label>
+                                            <input type="street" class="form-control" name="street" [(ngModel)]="modeledit.street" #street="ngModel" required />
+                                            <div *ngIf="f.submitted && !street.valid && showerror" class="help-block">Street details is required</div>
+                                        </div>
+                                        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !landmark.valid }">
+                                            <label for="landmark">Landmark</label>
+                                            <input type="landmark" class="form-control" name="landmark" [(ngModel)]="modeledit.landmark" #landmark="ngModel" required />
+                                            <div *ngIf="f.submitted && !landmark.valid && showerror" class="help-block">Landmark is required</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !country.valid }">
+                                                <label for="country">Country</label>
+                                                <input type="country" class="form-control" name="country" [(ngModel)]="modeledit.country" #country="ngModel" required />
+                                                <div *ngIf="f.submitted && !country.valid && showerror" class="help-block">Country is required</div>
+                                            </div>
+                                            <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !state.valid }">
+                                                <label for="state">State</label>
+                                                <input type="state" class="form-control" name="state" [(ngModel)]="modeledit.state" #state="ngModel" required />
+                                                <div *ngIf="f.submitted && !state.valid && showerror" class="help-block">State is required</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !city.valid }">
+                                                <label for="city">City</label>
+                                                <input type="city" class="form-control" name="city" [(ngModel)]="modeledit.city" #city="ngModel" required />
+                                                <div *ngIf="f.submitted && !city.valid && showerror" class="help-block">City is required</div>
+                                            </div>
+                                            <div class="form-group col-md-6" [ngClass]="{ 'has-error': f.submitted && !pincode.valid }">
+                                                <label for="pincode">Pincode</label>
+                                                <input type="pincode" class="form-control" name="pincode" [(ngModel)]="modeledit.pincode" #pincode="ngModel" required />
+                                                <div *ngIf="f.submitted && !pincode.valid && showerror" class="help-block">Pincode is required</div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                            </div>
+                                        </div>
+                                        
+                                        <button class="btn btn-primary" type="submit">Update</button>
+                                    </form>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end white-wrapper -->

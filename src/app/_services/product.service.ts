@@ -15,6 +15,7 @@ export class ProductService {
   total : number = 0;
   localcart : any = {};
   makelocalcart : any = {};
+  wishlist: any = {};
   private apiLink= environment.API_URL;
   // cart array
     private product = new BehaviorSubject(0);
@@ -42,10 +43,21 @@ export class ProductService {
     private catServices = new BehaviorSubject([]);
      castservices = this.catServices.asObservable();
 
-
+  // categorty wise product
+    private localProduct = new BehaviorSubject([]);
+    catlocalm = this.localProduct.asObservable();
+    
   // categorty wise product
     private catLocalMarket = new BehaviorSubject([]);
     castLocalMarket = this.catLocalMarket.asObservable();
+
+  // categorty wise product
+    private productinwishlist = new BehaviorSubject([]);
+    castproductinwishlist = this.productinwishlist.asObservable();
+
+  // wishlistcount 
+    private wishlistcount = new BehaviorSubject(0);
+    castwishlistcount = this.wishlistcount.asObservable();
 
     constructor(private http: HttpClient,
                 // private authenticationService: AuthenticationService,
@@ -53,6 +65,7 @@ export class ProductService {
         ) { 
         this.calculateCartProductCounts();
         this.getcart();
+        this.wishcount();
     }
     count:string;
     
@@ -66,6 +79,7 @@ export class ProductService {
           .map(cartdata => {
               JSON.stringify(cartdata);
               this.cart.next(cartdata['response']);
+              console.log(cartdata['response']);
               return cartdata['response'];
           });
         }else{
@@ -107,8 +121,8 @@ export class ProductService {
                 this.calculateCartProductCounts();
                 this.alertService.success({
                     toast: true,
-                    title: 'Product has been added to cart',
-                    // text: "Your product has been added to cart",
+                    // title: 'Product has been added to cart',
+                    text: "Product has been added to cart",
                     timer: 1500,
                     showConfirmButton: false,
                     position: 'top-end',
@@ -155,7 +169,7 @@ export class ProductService {
             }
             this.alertService.success({
                 toast: true,
-                title: 'Product has been added to cart',
+                text: 'Product has been added to cart',
                 // text: "Your product has been added to cart",
                 timer: 1500,
                 showConfirmButton: false,
@@ -209,7 +223,7 @@ export class ProductService {
         if (this.currentUser) {
           return this.http.post(this.apiLink+'projectapis/removeCartItem.json', product)
           .subscribe(response =>{
-            console.log(response);
+            // console.log(response);
               // JSON.stringify(response);
               this.calculateCartProductCounts();
               this.loading.next(false);
@@ -251,19 +265,18 @@ export class ProductService {
             .subscribe(
             data => {
                   this.catProduct.next(data['response']);
-                  console.log(this.catProduct);
+                  // console.log(this.catProduct);
                 }
             )
         }
 
       // Services list wise
         getCategoryServiceList(cat_id){
-              console.log('I am here '+ cat_id);
           return this.http.get(this.apiLink+'projectapis/getServicesCatewise/'+cat_id+'.json')
             .subscribe(
             data => {
                   this.catServices.next(data['response']);
-                  console.log(this.catServices);
+                  // console.log(this.catServices);
                 }
             )
         }
@@ -273,9 +286,60 @@ export class ProductService {
             .subscribe(
             data => {
                   this.catLocalMarket.next(data['response']);
-                  console.log(this.catLocalMarket);
+                  // console.log(this.catLocalMarket);
                 }
             )
         }
+    // Local products
+        getLocalProductList(user_id, cat_id){
+            return this.http.post(this.apiLink+'projectapis/getLocalProductList.json', { user_id: user_id, localm_id:cat_id })
+              .subscribe(
+              data => {
+                    this.localProduct.next(data['response']);
+                    // console.log(this.localProduct);
+                  }
+              )
+        }
   // ================================= cart services ======================================//
+  // add product in wishlist
+    addToWishlist(wishlist: Cart){
+      this.http.post(this.apiLink+'projectapis/addToWishlist.json', wishlist)
+      .subscribe(
+        data => {
+          this.wishcount();
+          this.alertService.success({
+              toast: true,
+              // title: 'Product has been added to cart',
+              text: data['message'],
+              timer: 1500,
+              showConfirmButton: false,
+              position: 'top-end',
+              margin: '11em 0em'
+          });
+          this.productinwishlist.next(data['response']);
+          console.log(data['response']);
+        },
+        error => {
+          this.alertService.error({
+              title: 'Oops... error occurs',
+              text: error.data['message'],
+          })
+        });
+    }
+     // cart - calculate grandtotal
+      wishcount(){
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (this.currentUser) {
+          return this.http.get(this.apiLink+'projectapis/wishlistCount/'+this.currentUser.id +'.json')
+              .subscribe(
+              data => {
+                    this.wishlistcount.next(data['response']);
+                    console.log(data);
+                  }
+              )
+        }else{
+          this.wishlistcount.next(0);
+          
+        }
+      }
 }

@@ -1,0 +1,212 @@
+.oztitle{
+	padding-left: 20px;
+}
+.white-wrapper, .wrapper-content{
+    padding: 10px 0;
+    background: #f9f6f6;
+    position: relative;
+    display: block;
+}
+.ibox{
+	background-color: #fff;
+	clear: both;
+    margin-bottom: 3em;
+    margin-top: 0;
+    padding: 0;
+}
+.ibox-title {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #ffffff;
+    border-color: #fff;
+    border-image: none;
+    border-bottom: 1px !important;
+    color: inherit;
+    margin-bottom: 0;
+    padding: 15px 15px 7px;
+    min-height: 48px;
+}
+.pull-right {
+    float: right!important;
+}
+.pull-left {
+    float: left !important;
+}
+.ibox-title h5 {
+    display: inline-block;
+    font-size: 18px;
+    margin: 0 0 7px;
+    padding: 0;
+    text-overflow: ellipsis;
+    float: left;
+    border: 0px solid transparent !important;
+}
+.ibox-content {
+    clear: both;
+}
+.ibox{
+    background-color: #ffffff;
+    box-shadow: 1px 1px 2px #ddd;
+    border-color: #fff;
+}
+.ibox-content {
+    color: inherit;
+    padding: 15px 20px 20px 20px;
+    /*padding-top: 15px;*/
+    border-color: #e7eaec;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 0;
+}
+
+
+.profile-menu {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #ffffff;
+    color: inherit;
+    margin-bottom: 0;
+    padding: 15px 15px 7px;
+    min-height: 48px;
+    border-bottom: 1px solid #e7eaec;
+}
+.fa {
+    margin: 0 5px;
+}
+
+.username{
+    display: block;
+    padding-left: 90px;
+}
+
+li{
+    margin: 10px !important
+}
+.welcome{
+    padding: 10px 0 0 0 ;
+}
+
+
+.recent_posts_widget li:hover img{
+
+   background-color: none;
+}
+
+.ibox-content1 {
+    color: inherit;
+    padding: 0 0 10px 0;
+    border-color: #e7eaec;
+    -o-border-image: none;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 0;
+}
+.custom_tab_2 {
+    margin-top: 0px !important;
+}
+.ibox{
+    margin-bottom: 0px;
+    margin-top: 0;
+    padding: 0;
+}
+.ibox ul, ol {
+    margin-bottom: 5px;
+}
+.ibox li{
+    margin: 0px !important;
+}
+.custom_tab_2 li a{
+	font-size: 14px;
+}
+.labelheading{
+    font-weight: 600;
+}
+.btn-info.btn-outline {
+    color: #23c6c8;
+}
+.btn-outline {
+    color: inherit;
+    background-color: transparent;
+    transition: all .5s;
+    cursor: pointer;
+    z-index: 999999999999;
+}
+.btn-info {
+    border-color: #23c6c8;
+    color: #FFFFFF;
+    position: absolute;
+    right: 35px;
+}
+.btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .open .dropdown-toggle.btn-info, .btn-info:active:focus, .btn-info:active:hover, .btn-info.active:hover, .btn-info.active:focus {
+    background-color: #21b9bb;
+    border-color: #21b9bb;
+    color: #FFFFFF;
+}
+.custom_tab_2 li a {
+    font-size: 16px;
+}
+.custom_tab_2 .nav-pills > li > a{
+    padding: 16px 20px;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    background: #01a79d !important;
+}
+.nav-link{
+    color: #525050;
+}
+.info-box{
+    padding: 15px;
+}
+.i-checks{
+    float: left;
+    display: inline-block;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+.profile_btn{
+    margin-left: 15px;
+}
+p{
+    margin: 0px;
+    padding: 0px;
+}
+.nav-pills li{
+    cursor: pointer;
+}
+.addBox{
+    border: 1px solid #efebeb;
+    padding: 25px 15px;
+    margin-bottom: 20px;
+    height: 200px;
+}
+h4 {
+    font-size: 16px;
+    text-transform: uppercase;
+}
+.addnewaddrs{
+    border-style: dashed;
+    border-width: 2px;
+    box-sizing: border-box;
+    border-color: #C7C7C7;
+    text-align: center;
+    height: 200px;
+    padding-top: 2em;
+    cursor: pointer;
+}
+.addnewaddrs span{
+    font-size: 8em;
+    line-height: 0.8em;
+}
+.addBox a{
+    color: #339967;
+}
+.form-control {
+    margin-bottom: 0px;
+}
+a{
+    cursor: pointer;
+}

@@ -24,3 +24,18 @@
     display: none !important;
     
 }
+.workingdiv{
+    color: #3a3535;
+    font-weight: 600;
+}
+.open{
+    color: #0b9c55 !important;
+    font-weight: 600;
+}
+.closetime{
+    font-weight: 400;
+    font-size: 12px;
+}
+.closeshop{
+    color: #e41845;
+}

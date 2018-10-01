@@ -19,6 +19,8 @@ export class LocalMarketComponent implements OnInit {
     category: any;
     breadcrumb:any;
     subcategories:any;
+    testResponse: any;
+    company_address: any;
   	constructor(private http : HttpClient, 
   				private route : ActivatedRoute,
   				private router:Router, 
@@ -35,6 +37,8 @@ export class LocalMarketComponent implements OnInit {
         this.getCategoryDetails(this.id);
         this.getBreadcrumb(this.id);
         this.getsubCategoryDetails(this.id);
+        this.getProjectDetails();
+        this.company_address_details();
       });
   }
   getLocalMarket(id){
@@ -45,7 +49,7 @@ export class LocalMarketComponent implements OnInit {
    return this.http.get(this.apiLink+'projectapis/getCategoryDetails/'+id+'.json')
       .subscribe(
       data => {
-            this.category = data;
+            this.category = data['response'];
             console.log("I CANT SEE category details HERE: ", this.category);
             return this.category;
           }
@@ -72,5 +76,33 @@ export class LocalMarketComponent implements OnInit {
               return this.subcategories;
             }
         )
+  }
+
+  getProjectDetails(){
+    return this.http.get(this.apiLink+'projectapis/getProjectDetails.json')
+    .subscribe(
+      data => {
+            this.testResponse = data['response'];
+            // console.log("I CANT SEE DATA HERE: ", this.testResponse);
+            return this.testResponse;
+          }
+    )
+  }
+
+  company_address_details(){
+    return this.http.get(this.apiLink+'projectapis/company_address_details.json')
+    .subscribe(
+      data => {
+            this.company_address = data['response'];
+            console.log("I CANT SEE DATA HERE: ", this.company_address);
+            return this.company_address;
+          }
+    )
+  }
+
+  getSlug(text){
+    if (text) {
+      return text.replace(/\W+/g, '-');
+    }
   }
 }

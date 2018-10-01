@@ -1,67 +1,53 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
 import {APP_BASE_HREF} from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 // installed plugins
 import { SweetAlertService } from 'angular-sweetalert-service';
 import { NgxCarouselModule } from 'ngx-carousel';
-import {StarRatingModule} from 'angular-star-rating';
-import { OwlModule } from 'ngx-owl-carousel';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // components
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
-import { HomeComponent } from './pages/home/home.component';
-import { CategoryComponent } from './category/category.component';
-import { ProductsComponent } from './products/products.component';
 
 
-import { GeneralsettingsService, ProductService } from './_services/index';
-import { ServicesComponent } from './pages/services/services.component';
-import { ServiceDetailsComponent } from './pages/service-details/service-details.component';
-import { LocalMarketComponent } from './pages/local-market/local-market.component';
+import { GeneralsettingsService, ProductService, UserService, AuthenticationService } from './_services/index';
 
-const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'category/:id', component: CategoryComponent },
-  { path: 'product/:id', component: ProductsComponent },
-  { path: 'services/:id', component: ServicesComponent },
-  { path: 'service/:id', component: ServiceDetailsComponent },
-  { path: 'local_market/:id', component: LocalMarketComponent }
-  // { path: '**', component: PageNotFoundComponent }
-];
+import { AppRoutingModule } from './app-routing.module';
+import { PageRoutingModule } from './pages/page-routing.module';
+import { CustomerRoutingModule } from './customer/customer-routing.module';
+import { CheckoutComponent } from './payment/checkout/checkout.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent,
-    CategoryComponent,
-    ProductsComponent,
-    ServicesComponent,
-    ServiceDetailsComponent,
-    LocalMarketComponent
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(routes, {useHash: true}),
+    // RouterModule.forRoot(routes, {useHash: true}),
     NgxCarouselModule,
-    ReactiveFormsModule,
+    AppRoutingModule,
+    PageRoutingModule,
+    CustomerRoutingModule,
     FormsModule,
-    OwlModule,
-    StarRatingModule.forRoot()
+    ReactiveFormsModule
   ],
   providers: [
               GeneralsettingsService,
               ProductService,
               SweetAlertService,
+              DatePipe,
+              UserService,
+              AuthenticationService,
               {provide: APP_BASE_HREF, useValue: '/'}
             ],
   bootstrap: [AppComponent]

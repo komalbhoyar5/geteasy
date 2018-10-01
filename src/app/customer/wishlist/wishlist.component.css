@@ -1,0 +1,39 @@
+.button:hover {
+    background: #339967;
+    border: 1px solid #339967;
+}
+.products-block .product-price {
+    font-size: 18px;
+    color: #ff9900;
+    font-weight: bold;
+    line-height: 35px;
+}
+.grid li .left-block {
+    position: relative;
+    overflow: hidden;
+    padding: 10px 10px 0;
+    height: 280px;
+}
+
+.list .left-block{
+	position: inherit;
+    height: 280px;
+}
+.list .left-block .quick-view{
+	right: 28px !important;
+}
+.product-price {
+    color: #ffad00;
+}
+.old-price {
+    text-decoration: line-through !important;
+    margin-left: 11px;
+    line-height: 25px;
+    color: #666 !important;
+}
+.list-wishlist li .product-img {
+    border: 1px solid #eee;
+    padding: 10px;
+    height: 200px;
+    overflow: hidden;
+}

@@ -3,14 +3,10 @@
         <!-- breadcrumb -->
         <div class="breadcrumb clearfix">
             <a class="home" href="#" title="Return to Home">Home</a>
-            <span class="navigation-pipe">&nbsp;</span>
-            <a href="#" title="Return to Home">Fashion</a>
-            <span class="navigation-pipe">&nbsp;</span>
-            <a href="#" title="Return to Home">Women</a>
-            <span class="navigation-pipe">&nbsp;</span>
-            <a href="#" title="Return to Home">Dresses</a>
-            <span class="navigation-pipe">&nbsp;</span>
-            <span class="navigation_page">Maecenas consequat mauris</span>
+            <a  [routerLink]="['/category',bcrumb?.id, getSlug(bcrumb?.name)]" *ngFor="let bcrumb of breadcrumb">
+                <span class="navigation-pipe">&nbsp;</span>
+                <span class="navigation_page">{{bcrumb?.name}}</span>
+            </a>
         </div>
         <!-- ./breadcrumb -->
         <!-- row -->
@@ -22,18 +18,13 @@
                     <div id="product">
                         <div class="primary-box row">
                             <div class="pb-left-column col-xs-12 col-sm-5">
-                                <!-- product-imge-->
-                               <!--  <img
-                                    ez-plus 
-                                    ezp-model="{thumb:IMGPATH, small:IMGPATH, large:IMGPATH}"
-                                    ezp-options="{scrollZoom: true, easing: true}"
-                                     id="zoom_01" [src]="apiLink + products?.medium_imgs.split(',')[0]" />
-                                      -->
                                 <div class="product-image">
-                                    <div class="product-full">
-                                        <img id="product-zoom" [src]="apiLink + products?.medium_imgs.split(',')[0]" data-zoom-image="assets/data/product-s3-850x1036.jpg"/>
-                                    </div>
-                                    <div class="product-img-thumb" id="gallery_01">
+                                        <img  src="{{apiLink + products?.medium_imgs.split(',')[0] }}"/>
+                                   <!--  <div class="product-full">
+                                        <img id="product-zoom" src="{{apiLink + products?.medium_imgs.split(',')[0] }}"/>
+                                    </div> -->
+                                    <!--  [attr.data-zoom-image]="apiLink + products?.imgs.split(',')[0]" -->
+                                   <!--  <div class="product-img-thumb" id="gallery_01">
                                         <ul class="owl-carousel" data-items="3" data-nav="true" data-dots="false" data-margin="21" data-loop="true">
                                             <li>
                                                 <a href="#" data-image="assets/data/product-s3-420x512.jpg" data-zoom-image="assets/data/product-s3-850x1036.jpg">
@@ -66,23 +57,9 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    </div>
+                                    </div> -->
                                 </div>
-                                <!-- <div class="product-image">
-                                    <div class="product-full">
-                                        <img id="product-zoom"  src="{{apiLink + products?.medium_imgs.split(',')[0] }}" [attr.data-zoom-image]="apiLink + products?.imgs.split(',')[0] "/>
-                                    </div>
-                                    <div class="product-img-thumb" id="gallery_01">
-                                        <ul class="owl-carousel" [attr.data-items] = "products?.medium_imgs.split(',').length" data-nav="true" data-dots="false" data-margin="21" data-loop="true">
-                                            <li *ngFor="let imgs of products?.medium_imgs.split(',');  index as i;">
-                                                <a href="#" [attr.data-image]="apiLink + imgs" [attr.data-zoom-image] = "apiLink +imgs">
-                                                    <img id="product-zoom"  src="{{apiLink + imgs }}" /> 
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div> -->
-                                <!-- product-imge-->
+                           
                             </div>
                             <div class="pb-right-column col-xs-12 col-sm-7">
                                 <h1 class="product-name">{{products?.title}}</h1>
@@ -99,21 +76,27 @@
                                         <a href="#"><i class="fa fa-pencil"></i> write a review</a>
                                     </div>
                                 </div>
-                                <div class="product-price-group">
+                                <div class="product-price-group" *ngIf="products?.discount > 0; else nodiscount">
                                     <span class="price"><i class="fa fa-inr"></i> {{ products?.price - (products?.price * (products?.discount / 100)) | number : '1.2-2' }}</span>
                                     <span class="old-price"><i class="fa fa-inr"></i> {{products?.price | number : '1.2-2' }}</span>
                                     <span class="discount">{{products?.discount}}% off</span>
                                 </div>
+                                <ng-template #nodiscount>
+                                    <div class="product-price-group">
+                                        <span class="price"><i class="fa fa-inr"></i> {{ products?.price - (products?.price * (products?.discount / 100)) | number : '1.2-2' }}</span>
+                                    </div>
+                                </ng-template>
                                 <div class="info-orther">
                                     <p>Item Code: {{ products?.product_UID }}</p>
-                                    <p>Availability: <span *ngIf="products?.product_count?.length >0; else out_stock"  class="in-stock">In stock</span>
-                                            <ng-template #out_stock>  
-                                                <span  class="out-stock">Out of stock</span>
-                                            </ng-template>
-                                        </p>
+                                    <p>Availability: <span *ngIf="products?.product_count >0; else out_stock"  class="in-stock">In stock</span>
+                                        <ng-template #out_stock>  
+                                            <span  class="out-stock">Out of stock</span>
+                                        </ng-template>
+                                    </p>
+                                    <p *ngIf="vendor_detail?.length >0">Seller: {{vendor_detail?.business_name}}</p>
                                 </div>
                                 
-                                <div class="form-option">
+                                <!-- <div class="form-option">
                                     <p class="form-option-title">Available Options:</p>
                                     <div class="attributes">
                                         <div class="attribute-label">Color:</div>
@@ -156,13 +139,24 @@
                                         </div>
                                         
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="form-action">
+                                    <div class="btn-shop">
+                                        <form class="form-inline" role="form">
+                                          <div class="form-group has-success has-feedback">
+                                            <span (click) ="substractCount()"><i class="fa fa-minus"></i></span>
+                                            <input type="text" class="form-control" [value]="countvalue">
+                                            <span (click)="addCount()"><i class="fa fa-plus"></i></span>
+                                          </div>
+                                        </form>
+                                    </div> 
                                     <div class="button-group">
-                                        <a class="btn-add-cart" href="#">Add to cart</a>
+                                        <a class="btn-add-cart"  (click)="addToCart()">Add to cart</a>
                                     </div>
                                     <div class="button-group">
-                                        <a class="wishlist" href="#"><i class="fa fa-heart-o"></i>
+                                        <a *ngIf="productinwishlist?.length == 0" class="wishlist" (click)="addToWishList();"><i class="fa fa-heart-o"></i>
+                                        <br>Wishlist</a>
+                                        <a *ngIf="productinwishlist?.length != 0" class="wishlist addedwishlist" (click)="addToWishList(productinwishlist?.Wishlist?.id);"><i class="fa fa-heart-o"></i>
                                         <br>Wishlist</a>
                                     </div>
                                 </div>
@@ -268,274 +262,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- ./tab product -->
-                        <!-- box product -->
-                        <div class="page-product-box">
-                            <h3 class="heading">Related Products</h3>
-                            <ul class="product-list owl-carousel" data-dots="false" data-loop="true" data-nav = "true" data-margin = "30" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":4}}'>
-                                <li>
-                                    <div class="product-container">
-                                        <div class="left-block">
-                                            <a href="#">
-                                                <img class="img-responsive" alt="product" src="assets/images/sellers3.jpg" />
-                                            </a>
-                                            <div class="quick-view">
-                                                    <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                    <a title="Add to compare" class="compare" href="#"></a>
-                                                    <a title="Quick view" class="search" href="#"></a>
-                                            </div>
-                                            <div class="add-to-cart">
-                                                <a title="Add to Cart" href="#add">Add to Cart</a>
-                                            </div>
-                                        </div>
-                                        <div class="right-block">
-                                            <h5 class="product-name"><a href="#">Maecenas consequat mauris</a></h5>
-                                            <div class="product-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </div>
-                                            <div class="content_price">
-                                                <span class="price product-price">$38,95</span>
-                                                <span class="price old-price">$52,00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="product-container">
-                                        <div class="left-block">
-                                            <a href="#">
-                                                <img class="img-responsive" alt="product" src="assets/images/sellers3.jpg" />
-                                            </a>
-                                            <div class="quick-view">
-                                                    <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                    <a title="Add to compare" class="compare" href="#"></a>
-                                                    <a title="Quick view" class="search" href="#"></a>
-                                            </div>
-                                            <div class="add-to-cart">
-                                                <a title="Add to Cart" href="#add">Add to Cart</a>
-                                            </div>
-                                        </div>
-                                        <div class="right-block">
-                                            <h5 class="product-name"><a href="#">Maecenas consequat mauris</a></h5>
-                                            <div class="product-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </div>
-                                            <div class="content_price">
-                                                <span class="price product-price">$38,95</span>
-                                                <span class="price old-price">$52,00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="product-container">
-                                        <div class="left-block">
-                                            <a href="#">
-                                                <img class="img-responsive" alt="product" src="assets/images/sellers2.jpg" />
-                                            </a>
-                                            <div class="quick-view">
-                                                    <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                    <a title="Add to compare" class="compare" href="#"></a>
-                                                    <a title="Quick view" class="search" href="#"></a>
-                                            </div>
-                                            <div class="add-to-cart">
-                                                <a title="Add to Cart" href="#add">Add to Cart</a>
-                                            </div>
-                                        </div>
-                                        <div class="right-block">
-                                            <h5 class="product-name"><a href="#">Maecenas consequat mauris</a></h5>
-                                            <div class="product-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </div>
-                                            <div class="content_price">
-                                                <span class="price product-price">$38,95</span>
-                                                <span class="price old-price">$52,00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="product-container">
-                                        <div class="left-block">
-                                            <a href="#">
-                                                <img class="img-responsive" alt="product" src="assets/images/baner-floor4.jpg" />
-                                            </a>
-                                            <div class="quick-view">
-                                                    <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                    <a title="Add to compare" class="compare" href="#"></a>
-                                                    <a title="Quick view" class="search" href="#"></a>
-                                            </div>
-                                            <div class="add-to-cart">
-                                                <a title="Add to Cart" href="#add">Add to Cart</a>
-                                            </div>
-                                        </div>
-                                        <div class="right-block">
-                                            <h5 class="product-name"><a href="#">Maecenas consequat mauris</a></h5>
-                                            <div class="product-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </div>
-                                            <div class="content_price">
-                                                <span class="price product-price">$38,95</span>
-                                                <span class="price old-price">$52,00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- ./box product -->
-                        <!-- box product -->
-                        <div class="page-product-box">
-                            <h3 class="heading">You might also like</h3>
-                            <ul class="product-list owl-carousel" data-dots="false" data-loop="true" data-nav = "true" data-margin = "30" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":4}}'>
-                                <li>
-                                    <div class="product-container">
-                                        <div class="left-block">
-                                            <a href="#">
-                                                <img class="img-responsive" alt="product" src="assets/images/baner-floor3.jpg" />
-                                            </a>
-                                            <div class="quick-view">
-                                                    <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                    <a title="Add to compare" class="compare" href="#"></a>
-                                                    <a title="Quick view" class="search" href="#"></a>
-                                            </div>
-                                            <div class="add-to-cart">
-                                                <a title="Add to Cart" href="#add">Add to Cart</a>
-                                            </div>
-                                        </div>
-                                        <div class="right-block">
-                                            <h5 class="product-name"><a href="#">Maecenas consequat mauris</a></h5>
-                                            <div class="product-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </div>
-                                            <div class="content_price">
-                                                <span class="price product-price">$38,95</span>
-                                                <span class="price old-price">$52,00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="product-container">
-                                        <div class="left-block">
-                                            <a href="#">
-                                                <img class="img-responsive" alt="product" src="assets/images/baner-floor3.jpg" />
-                                            </a>
-                                            <div class="quick-view">
-                                                    <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                    <a title="Add to compare" class="compare" href="#"></a>
-                                                    <a title="Quick view" class="search" href="#"></a>
-                                            </div>
-                                            <div class="add-to-cart">
-                                                <a title="Add to Cart" href="#add">Add to Cart</a>
-                                            </div>
-                                        </div>
-                                        <div class="right-block">
-                                            <h5 class="product-name"><a href="#">Maecenas consequat mauris</a></h5>
-                                            <div class="product-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </div>
-                                            <div class="content_price">
-                                                <span class="price product-price">$38,95</span>
-                                                <span class="price old-price">$52,00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="product-container">
-                                        <div class="left-block">
-                                            <a href="#">
-                                                <img class="img-responsive" alt="product" src="assets/images/floor2-1.jpg" />
-                                            </a>
-                                            <div class="quick-view">
-                                                    <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                    <a title="Add to compare" class="compare" href="#"></a>
-                                                    <a title="Quick view" class="search" href="#"></a>
-                                            </div>
-                                            <div class="add-to-cart">
-                                                <a title="Add to Cart" href="#add">Add to Cart</a>
-                                            </div>
-                                        </div>
-                                        <div class="right-block">
-                                            <h5 class="product-name"><a href="#">Maecenas consequat mauris</a></h5>
-                                            <div class="product-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </div>
-                                            <div class="content_price">
-                                                <span class="price product-price">$38,95</span>
-                                                <span class="price old-price">$52,00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="product-container">
-                                        <div class="left-block">
-                                            <a href="#">
-                                                <img class="img-responsive" alt="product" src="assets/images/sellers3.jpg" />
-                                            </a>
-                                            <div class="quick-view">
-                                                    <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                    <a title="Add to compare" class="compare" href="#"></a>
-                                                    <a title="Quick view" class="search" href="#"></a>
-                                            </div>
-                                            <div class="add-to-cart">
-                                                <a title="Add to Cart" href="#add">Add to Cart</a>
-                                            </div>
-                                        </div>
-                                        <div class="right-block">
-                                            <h5 class="product-name"><a href="#">Maecenas consequat mauris</a></h5>
-                                            <div class="product-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </div>
-                                            <div class="content_price">
-                                                <span class="price product-price">$38,95</span>
-                                                <span class="price old-price">$52,00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- ./box product -->
                     </div>
-                <!-- Product -->
             </div>
-            <!-- ./ Center colunm -->
         </div>
-        <!-- ./row-->
     </div>
 </div>

@@ -1,0 +1,150 @@
+<div [ngClass]="[loading ? ' sk-loading' : '']">
+    <div class="sk-spinner sk-spinner-double-bounce">
+        <div class="sk-double-bounce1"></div>
+        <div class="sk-double-bounce2"></div>
+    </div>
+</div> 
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="container-fluid" >
+        <div class="row" *ngIf="cart?.length > 0; else emptycart">
+            <div class="col-md-9">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <span class="pull-right">(<strong>{{cart?.length}}</strong>) items</span>
+                        <h5>Items in your cart</h5>
+                    </div>
+                    <div class="ibox-content cartdiv{{i}}" *ngFor="let cartdata of cart let i = index">
+                        <div class="table-responsive">
+                            <table class="table shoping-cart-table">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            
+                                        </div>
+                                    </td>
+                                    <div class="col-md-3">
+                                        <div class="cart-product-imitation">
+                                            <img src="{{apiLink + cartdata?.Product.imgs.split(',')[0] }}" class="img-responsive">
+                                        </div>
+                                    </div>
+                                    <div class="desc col-md-4">
+                                        <h3>
+                                        <a [routerLink]="['/product', cartdata?.Product?.id, cartdata.Product.category_id, getSlug(cartdata?.Product?.title)]" class="text-navy">
+                                            {{cartdata?.Product?.title}}
+                                        </a>
+                                        </h3>
+                                        <!-- <p class="small varient" *ngIf="cartdata.Product.variant_type else variant">
+                                            {{ cartdata?.Product?.variant_type }} of {{ cartdata?.Product?.product_variant }}
+                                        </p> -->
+                                        <p>Item Code: {{ cartdata?.Product?.product_UID }}</p>
+                                        <ng-template #variant>
+                                            <p class="small varient"> pack of {{ cartdata?.Product?.product_variant }}  </p>
+                                        </ng-template>  
+                                        <div class="m-t-sm" *ngIf="cartdata.Product.discount > 0 else mrpprice">
+                                            <span class="new_price"><i class="fa fa-inr"></i> {{ cartdata.Product.price - (cartdata.Product.price * (cartdata.Product.discount / 100)) | number : '1.2-2' }}</span>
+                                            <span class="old-price"><i class="fa fa-inr"></i> {{cartdata.Product.price}}</span>
+                                            <span class="discount">( {{cartdata.Product.discount}}% off )</span>
+
+                                        </div>
+                                        <ng-template #mrpprice>
+                                            <span class="new_price"><i class="fa fa-inr"></i> {{ cartdata.Product.price  | number : '1.2-2' }}</span>
+                                        </ng-template>
+                                        <div class="m-t-sm">
+                                            <a class="text-muted" (click)="removeItem(cartdata)"> Remove item</a>
+                                        </div>
+                                    </div>
+                                    <div class="desc col-md-3">
+                                        <div class="pull-left product_count">
+                                            <div class="btn-shop">
+                                                <form class="form-inline" role="form">
+                                                  <div class="form-group has-success has-feedback">
+                                                    <span (click) ="substractCount(cartdata)"><i class="fa fa-minus"></i></span>
+                                                    <input type="text" class="form-control" name="countvalue_{{cartdata.Cart.id}}" [(ngModel)] = "cartdata.Cart.product_count" #productCount> 
+                                                    <span (click)="addCount(cartdata)"><i class="fa fa-plus"></i></span>
+                                                  </div>
+                                                </form>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="desc col-md-2">
+                                        <h4><i class="fa fa-inr"></i> 
+                                           {{ (cartdata.Product.price - (cartdata.Product.price * (cartdata.Product.discount / 100)))* cartdata.Cart.product_count | number : '1.2-2' }}
+                                           
+                                        </h4>
+                                    </div>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="ibox-content" *ngIf="currentUser else authlogin">
+                        <a [routerLink]="['/checkout']" class="btn btn-primary pull-right"><i class="fa fa fa-shopping-cart"></i> Checkout</a>
+                        <a [routerLink]="['/']" class="btn btn-default"><i class="fa fa-arrow-left"></i> Continue shopping</a >
+                    </div>
+                    <ng-template #authlogin>
+                        <div class="ibox-content">
+                            <a data-toggle="modal" data-target="#myModal1" class="btn btn-primary pull-right pad"><i class="fa fa fa-shopping-cart"></i> Checkout</a>
+                            <a [routerLink]="['/']" class="btn btn-default"><i class="fa fa-arrow-left pad"></i> Continue shopping</a >
+                        </div>
+                    </ng-template>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>Cart Summary</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <span>
+                            Total
+                        </span>
+                        <h2 class="font-bold">
+                            <i class="fa fa-inr"></i>  {{carttotal | number : '1.2-2' }}
+                        </h2>
+
+                        <hr>
+                        <span class="text-muted small">
+                            *For United States, France and Germany applicable sales tax will be applied
+                        </span>
+                        <div class="m-t-sm">
+                            <div  *ngIf="currentUser else authlogin">
+                                <a [routerLink]="['/']" class="btn btn-default"><i class="fa fa-arrow-left"></i> Cancel</a>
+                                <a class="btn btn-primary pull-right"  [routerLink]="['/checkout']">Checkout</a>
+                            </div>
+                            <ng-template #authlogin>
+                                <div>
+                                    <a [routerLink]="['/']" class="btn btn-default"><i class="fa fa-arrow-left"></i> Cancel</a>
+                                    <a class="btn btn-primary pull-right"  data-toggle="modal" data-target="#myModal1" >Checkout</a>
+                                </div>
+                            </ng-template>
+                        </div>
+                    </div>
+                </div>
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>Support</h5>
+                    </div>
+                    <div class="ibox-content text-center">
+                        <h3><i class="fa fa-phone"></i> {{ companycareno?.split(',')[0] }}</h3>
+                        <span class="small">
+                            Please contact with us if you have any questions. We are avalible 24h.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #emptycart>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="emptybox">
+                        <img src="assets/images/empty-cart.png">
+                        <h1>Empty cart</h1>
+                        <h3>Looks like you haven't made your choice yet....</h3>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</div>
